@@ -1,0 +1,25 @@
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
+import type { Database } from '@/lib/tipos'
+
+/** Cliente de Supabase para Server Components y server actions. Uno por petición. */
+export async function crearClienteServidor() {
+  const almacen = await cookies()
+  return createServerClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll: () => almacen.getAll(),
+        setAll(cookiesAEscribir) {
+          try {
+            cookiesAEscribir.forEach(({ name, value, options }) => almacen.set(name, value, options))
+          } catch {
+            // Llamado desde un Server Component: no puede escribir cookies.
+            // El proxy se encarga de refrescar la sesión.
+          }
+        },
+      },
+    },
+  )
+}
