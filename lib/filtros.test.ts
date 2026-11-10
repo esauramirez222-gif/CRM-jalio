@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { escaparBusqueda, parseFiltros, rangoPagina } from './filtros'
+import { construirQuery, escaparBusqueda, parseFiltros, rangoPagina } from './filtros'
 
 const UUID = '3f1c2b9a-6a3e-4c1d-9b7e-2f4a5c6d7e8f'
 
@@ -47,6 +47,22 @@ describe('escaparBusqueda', () => {
 
   it('escapa comillas dobles y quita asteriscos', () => {
     expect(escaparBusqueda('di"go*')).toBe('"%di\\"go%"')
+  })
+})
+
+describe('construirQuery', () => {
+  const base = { estado: UUID, q: 'ana', por: 'Monica' as const, pagina: 3 }
+
+  it('omite valores por defecto', () => {
+    expect(construirQuery({ estado: null, q: '', por: null, pagina: 1 }, {})).toBe('')
+  })
+
+  it('al cambiar un filtro vuelve a la página 1', () => {
+    expect(construirQuery(base, { estado: null })).toBe('?q=ana&por=Monica')
+  })
+
+  it('al cambiar sólo la página conserva los filtros', () => {
+    expect(construirQuery(base, { pagina: 4 })).toBe(`?estado=${UUID}&q=ana&por=Monica&pagina=4`)
   })
 })
 

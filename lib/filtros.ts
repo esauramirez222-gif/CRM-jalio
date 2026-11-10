@@ -40,6 +40,22 @@ export function escaparBusqueda(q: string): string {
   return `"%${citado}%"`
 }
 
+/**
+ * Arma el query string (con `?`, o '' si no hay nada) aplicando `cambios`.
+ * Si cambia cualquier filtro distinto de la página, vuelve a la página 1.
+ */
+export function construirQuery(f: Filtros, cambios: Partial<Filtros>): string {
+  const soloPagina = Object.keys(cambios).every((k) => k === 'pagina')
+  const n = { ...f, ...cambios, pagina: soloPagina ? (cambios.pagina ?? f.pagina) : 1 }
+  const sp = new URLSearchParams()
+  if (n.estado) sp.set('estado', n.estado)
+  if (n.q) sp.set('q', n.q)
+  if (n.por) sp.set('por', n.por)
+  if (n.pagina > 1) sp.set('pagina', String(n.pagina))
+  const s = sp.toString()
+  return s ? `?${s}` : ''
+}
+
 /** Rango inclusivo [desde, hasta] para `.range()` de Supabase. */
 export function rangoPagina(pagina: number): [number, number] {
   const desde = (pagina - 1) * TAM_PAGINA
