@@ -57,6 +57,8 @@ alter table public.clientes add constraint clientes_contactado_por_check
 3. En Supabase → Authentication → URL Configuration: poner la URL de Netlify como **Site URL** y en **Redirect URLs**.
 4. En GitHub → Settings → Secrets → Actions: crear `SUPABASE_URL` y `SUPABASE_ANON_KEY` para el workflow `keepalive-supabase`, que hace un ping cada 3 días para que Supabase no pause el proyecto gratuito.
 
+> ⚠️ **GitHub desactiva los workflows programados tras 60 días sin actividad en el repo.** Si dejan de hacer commits, GitHub manda un correo avisando; entren a *Actions → keepalive-supabase → Enable workflow* (o hagan cualquier commit). Si no, Supabase pausará el proyecto ~1 semana después y habrá que restaurarlo desde su panel (los datos no se pierden).
+
 ## Checklist manual antes de cada deploy
 
 - [ ] Login correcto e incorrecto; cerrar sesión.

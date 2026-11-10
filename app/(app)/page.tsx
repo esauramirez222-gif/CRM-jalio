@@ -5,13 +5,18 @@ import { Paginacion } from '@/components/clientes/paginacion'
 import { TablaClientes } from '@/components/clientes/tabla-clientes'
 import { Button } from '@/components/ui/button'
 import { conteosPorEstado, listarClientes } from '@/lib/consultas'
-import { parseFiltros } from '@/lib/filtros'
+import { redirect } from 'next/navigation'
+import { construirQuery, parseFiltros, ultimaPagina } from '@/lib/filtros'
 import { requerirSesion } from '@/lib/sesion'
 
 export default async function ClientesPage({ searchParams }: PageProps<'/'>) {
   const filtros = parseFiltros(await searchParams)
   const { supabase } = await requerirSesion()
-  const [estados, { filas, total }] = await Promise.all([conteosPorEstado(supabase), listarClientes(supabase, filtros)])
+  const [estados, { filas, total, fueraDeRango }] = await Promise.all([
+    conteosPorEstado(supabase),
+    listarClientes(supabase, filtros),
+  ])
+  if (fueraDeRango) redirect(`/${construirQuery(filtros, { pagina: ultimaPagina(total) })}`)
 
   const hayFiltros = !!(filtros.estado || filtros.q || filtros.por)
   const nuevo = <Button>Nuevo cliente</Button>

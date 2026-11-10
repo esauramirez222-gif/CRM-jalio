@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { construirQuery, escaparBusqueda, parseFiltros, rangoPagina } from './filtros'
+import { construirQuery, escaparBusqueda, parseFiltros, rangoPagina, ultimaPagina } from './filtros'
 
 const UUID = '3f1c2b9a-6a3e-4c1d-9b7e-2f4a5c6d7e8f'
 
@@ -70,5 +70,13 @@ describe('rangoPagina', () => {
   it('calcula el rango inclusivo de 50 en 50', () => {
     expect(rangoPagina(1)).toEqual([0, 49])
     expect(rangoPagina(2)).toEqual([50, 99])
+  })
+})
+
+describe('ultimaPagina', () => {
+  it('calcula la última página válida (mínimo 1)', () => {
+    expect(ultimaPagina(0)).toBe(1)
+    expect(ultimaPagina(50)).toBe(1)
+    expect(ultimaPagina(51)).toBe(2)
   })
 })

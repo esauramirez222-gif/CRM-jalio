@@ -56,6 +56,11 @@ export function construirQuery(f: Filtros, cambios: Partial<Filtros>): string {
   return s ? `?${s}` : ''
 }
 
+/** Última página válida para `total` clientes (mínimo 1). */
+export function ultimaPagina(total: number): number {
+  return Math.max(1, Math.ceil(total / TAM_PAGINA))
+}
+
 /** Rango inclusivo [desde, hasta] para `.range()` de Supabase. */
 export function rangoPagina(pagina: number): [number, number] {
   const desde = (pagina - 1) * TAM_PAGINA

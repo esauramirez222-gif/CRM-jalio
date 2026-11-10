@@ -13,7 +13,7 @@ export type ClienteFila = Database['public']['Tables']['clientes']['Row'] & {
 export async function listarClientes(
   supabase: Cliente,
   f: Filtros,
-): Promise<{ filas: ClienteFila[]; total: number }> {
+): Promise<{ filas: ClienteFila[]; total: number; fueraDeRango: boolean }> {
   let consulta = supabase
     .from('clientes')
     .select('*, estado:estados(id, nombre, color)', { count: 'exact' })
@@ -27,8 +27,11 @@ export async function listarClientes(
   }
 
   const { data, count, error } = await consulta.range(...rangoPagina(f.pagina))
+  // Página fuera de rango (p. ej. tras borrar el último cliente de la última página):
+  // devolver vacío con total desconocido; la página redirige a la última válida.
+  if (error?.code === 'PGRST103') return { filas: [], total: count ?? 0, fueraDeRango: true }
   if (error) throw new Error('No se pudieron cargar los clientes')
-  return { filas: (data ?? []) as ClienteFila[], total: count ?? 0 }
+  return { filas: (data ?? []) as ClienteFila[], total: count ?? 0, fueraDeRango: false }
 }
 
 export async function conteosPorEstado(supabase: Cliente): Promise<EstadoResumen[]> {

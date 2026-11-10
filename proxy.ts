@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { destinoProxy } from '@/lib/rutas'
 import type { Database } from '@/lib/tipos'
 
 /** Refresca la sesión de Supabase y protege las rutas de la app. */
@@ -26,12 +27,12 @@ export async function proxy(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  const enLogin = request.nextUrl.pathname.startsWith('/login')
-
-  if (!user && !enLogin) return redirigir(request, '/login', response)
-  if (user && enLogin) return redirigir(request, '/', response)
-
-  return response
+  const destino = destinoProxy({
+    hayUsuario: !!user,
+    ruta: request.nextUrl.pathname,
+    esAccion: request.headers.has('next-action'),
+  })
+  return destino ? redirigir(request, destino, response) : response
 }
 
 /** Redirige conservando las cookies de sesión que Supabase haya refrescado. */
