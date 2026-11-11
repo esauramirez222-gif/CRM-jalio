@@ -11,8 +11,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   return (
     <div className="flex flex-1 flex-col">
       <header className="border-b">
-        <div className="mx-auto flex max-w-6xl items-center gap-6 px-4 py-3">
-          <Link href="/" className="flex items-center gap-2 font-semibold">
+        <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3 sm:gap-6">
+          <Link href="/" className="flex shrink-0 items-center gap-2 font-semibold whitespace-nowrap">
             <LogoJalio />
             <span>SC-Jalio</span>
           </Link>
@@ -25,7 +25,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
             </Link>
           </nav>
           <div className="ml-auto flex items-center gap-3 text-sm">
-            {perfil && <span className="text-muted-foreground">{perfil.nombre}</span>}
+            {perfil && <span className="hidden text-muted-foreground sm:inline">{perfil.nombre}</span>}
             <form action={cerrarSesion}>
               <Button type="submit" variant="outline" size="sm">
                 Cerrar sesión
