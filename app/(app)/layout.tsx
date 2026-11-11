@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { LogoJalio } from '@/components/logo-jalio'
+import { BotonTema } from '@/components/tema'
 import { Button } from '@/components/ui/button'
 import { cerrarSesion } from '@/app/login/actions'
 import { requerirSesion } from '@/lib/sesion'
@@ -26,6 +27,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           </nav>
           <div className="ml-auto flex items-center gap-3 text-sm">
             {perfil && <span className="hidden text-muted-foreground sm:inline">{perfil.nombre}</span>}
+            <BotonTema />
             <form action={cerrarSesion}>
               <Button type="submit" variant="outline" size="sm">
                 Cerrar sesión
