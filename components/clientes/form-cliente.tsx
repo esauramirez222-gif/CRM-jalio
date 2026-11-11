@@ -50,9 +50,6 @@ export function FormCliente({ estados, cliente, disparador }: Props) {
           <SheetDescription>Todos los campos son obligatorios, excepto celular y correo.</SheetDescription>
         </SheetHeader>
         <form onSubmit={enviar} className="space-y-4 px-4 pb-4" noValidate>
-          <Campo nombre="nombre" etiqueta="Nombre" error={errores.nombre}>
-            <Input id="nombre" name="nombre" defaultValue={cliente?.nombre} aria-invalid={!!errores.nombre} required />
-          </Campo>
           <Campo nombre="empresa" etiqueta="Empresa" error={errores.empresa}>
             <Input
               id="empresa"
@@ -61,6 +58,9 @@ export function FormCliente({ estados, cliente, disparador }: Props) {
               aria-invalid={!!errores.empresa}
               required
             />
+          </Campo>
+          <Campo nombre="nombre" etiqueta="Nombre" error={errores.nombre}>
+            <Input id="nombre" name="nombre" defaultValue={cliente?.nombre} aria-invalid={!!errores.nombre} required />
           </Campo>
           <Campo nombre="celular" etiqueta="Celular" error={errores.celular} opcional>
             <Input

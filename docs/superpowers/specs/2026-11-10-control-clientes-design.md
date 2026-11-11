@@ -53,8 +53,8 @@ Datos iniciales (seed), en este orden: `StandBy` (1), `Contacto` (2), `Catálogo
 | campo | tipo | restricciones |
 |---|---|---|
 | id | uuid | PK, default `gen_random_uuid()` |
-| nombre | text | NOT NULL, no vacío |
-| empresa | text | NOT NULL, no vacío |
+| nombre | text | NOT NULL, no vacío — nombre de la PERSONA de contacto |
+| empresa | text | NOT NULL, no vacío — nombre del NEGOCIO (se muestra como título en el listado) |
 | celular | text | nullable (opcional, cambio 2026-11-11) |
 | correo | text | nullable (opcional); si viene, formato de correo válido |
 | giro | text | NOT NULL, no vacío |

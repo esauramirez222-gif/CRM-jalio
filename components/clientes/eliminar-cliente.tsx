@@ -38,7 +38,7 @@ export function EliminarCliente({ id, nombre }: { id: string; nombre: string }) 
               size="icon"
               className="rounded-xl text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
               disabled={pendiente}
-              aria-label={`Eliminar a ${nombre}`}
+              aria-label={`Eliminar ${nombre}`}
               title="Eliminar"
             />
           }
@@ -47,7 +47,7 @@ export function EliminarCliente({ id, nombre }: { id: string; nombre: string }) 
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>¿Eliminar a «{nombre}»?</AlertDialogTitle>
+            <AlertDialogTitle>¿Eliminar «{nombre}»?</AlertDialogTitle>
             <AlertDialogDescription>Se borrará el cliente y sus datos. Esta acción no se puede deshacer.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

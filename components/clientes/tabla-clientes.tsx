@@ -34,11 +34,11 @@ export function TablaClientes({ filas, estados }: { filas: ClienteFila[]; estado
                     aria-hidden
                     className="flex size-9 shrink-0 items-center justify-center rounded-2xl bg-accent text-sm font-semibold text-foreground"
                   >
-                    {c.nombre.charAt(0).toUpperCase()}
+                    {c.empresa.charAt(0).toUpperCase()}
                   </span>
                   <div className="min-w-0">
-                    <p className="font-medium text-foreground">{c.nombre}</p>
-                    <p className="text-xs text-muted-foreground">{c.empresa}</p>
+                    <p className="font-medium text-foreground">{c.empresa}</p>
+                    <p className="text-xs text-muted-foreground">{c.nombre}</p>
                   </div>
                 </div>
               </TableCell>
@@ -64,7 +64,7 @@ export function TablaClientes({ filas, estados }: { filas: ClienteFila[]; estado
                 <SelectorEstado
                   key={c.estado_id}
                   clienteId={c.id}
-                  nombreCliente={c.nombre}
+                  nombreCliente={c.empresa}
                   estadoId={c.estado_id}
                   estados={estados}
                 />
@@ -88,14 +88,14 @@ export function TablaClientes({ filas, estados }: { filas: ClienteFila[]; estado
                         variant="ghost"
                         size="icon"
                         className="rounded-xl"
-                        aria-label={`Editar a ${c.nombre}`}
+                        aria-label={`Editar ${c.empresa}`}
                         title="Editar"
                       >
                         <Pencil />
                       </Button>
                     }
                   />
-                  <EliminarCliente id={c.id} nombre={c.nombre} />
+                  <EliminarCliente id={c.id} nombre={c.empresa} />
                 </div>
               </TableCell>
             </TableRow>

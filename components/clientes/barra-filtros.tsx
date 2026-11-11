@@ -35,8 +35,8 @@ export function BarraFiltros({ filtros }: { filtros: Filtros }) {
         />
         <Input
           type="search"
-          aria-label="Buscar por nombre o empresa"
-          placeholder="Buscar por nombre o empresa…"
+          aria-label="Buscar por empresa o nombre"
+          placeholder="Buscar por empresa o nombre…"
           value={q}
           onChange={(e) => setQ(e.target.value)}
           className="pl-9"
