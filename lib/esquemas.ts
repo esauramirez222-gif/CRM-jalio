@@ -5,30 +5,21 @@ const NOMBRE_OBLIGATORIO = 'El nombre es obligatorio'
 
 const nombre = z.string({ error: NOMBRE_OBLIGATORIO }).trim().min(1, NOMBRE_OBLIGATORIO)
 
-/** Texto opcional: recorta espacios; vacío o ausente se guarda como null. */
-const textoOpcional = z
-  .string()
-  .trim()
-  .optional()
-  .transform((v) => v || null)
+const CAMPO_OBLIGATORIO = 'Este campo es obligatorio'
+const SELECCIONA = 'Selecciona una opción'
 
-/** Valor de una lista fija; '' o ausente se guarda como null. */
-function opcionDeLista<T extends readonly [string, ...string[]]>(valores: T, mensaje: string) {
-  return z
-    .union([z.literal(''), z.enum(valores, { error: mensaje })], { error: mensaje })
-    .optional()
-    .transform((v) => (v ? v : null))
-}
+/** Texto obligatorio: recorta espacios; vacío, sólo espacios o ausente es error. */
+const textoObligatorio = z.string({ error: CAMPO_OBLIGATORIO }).trim().min(1, CAMPO_OBLIGATORIO)
 
 export const clienteSchema = z.object({
   nombre,
-  empresa: textoOpcional,
-  celular: textoOpcional,
-  correo: textoOpcional.pipe(z.email({ error: 'Correo inválido' }).nullable()),
-  giro: textoOpcional,
+  empresa: textoObligatorio,
+  celular: textoObligatorio,
+  correo: textoObligatorio.pipe(z.email({ error: 'Correo inválido' })),
+  giro: textoObligatorio,
   estado_id: z.uuid({ error: 'Selecciona un estado' }),
-  medio_contacto: opcionDeLista(MEDIOS_CONTACTO, 'Medio de contacto inválido'),
-  contactado_por: opcionDeLista(CONTACTADO_POR, 'Valor inválido'),
+  medio_contacto: z.enum(MEDIOS_CONTACTO, { error: SELECCIONA }),
+  contactado_por: z.enum(CONTACTADO_POR, { error: SELECCIONA }),
 })
 export type ClienteInput = z.output<typeof clienteSchema>
 

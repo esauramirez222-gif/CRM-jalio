@@ -47,17 +47,30 @@ export function FormCliente({ estados, cliente, disparador }: Props) {
       <SheetContent className="overflow-y-auto">
         <SheetHeader>
           <SheetTitle>{cliente ? 'Editar cliente' : 'Nuevo cliente'}</SheetTitle>
-          <SheetDescription>Sólo el nombre y el estado son obligatorios.</SheetDescription>
+          <SheetDescription>Todos los campos son obligatorios.</SheetDescription>
         </SheetHeader>
         <form onSubmit={enviar} className="space-y-4 px-4 pb-4" noValidate>
-          <Campo nombre="nombre" etiqueta="Nombre *" error={errores.nombre}>
+          <Campo nombre="nombre" etiqueta="Nombre" error={errores.nombre}>
             <Input id="nombre" name="nombre" defaultValue={cliente?.nombre} aria-invalid={!!errores.nombre} required />
           </Campo>
-          <Campo nombre="empresa" etiqueta="Empresa">
-            <Input id="empresa" name="empresa" defaultValue={cliente?.empresa ?? ''} />
+          <Campo nombre="empresa" etiqueta="Empresa" error={errores.empresa}>
+            <Input
+              id="empresa"
+              name="empresa"
+              defaultValue={cliente?.empresa ?? ''}
+              aria-invalid={!!errores.empresa}
+              required
+            />
           </Campo>
-          <Campo nombre="celular" etiqueta="Celular">
-            <Input id="celular" name="celular" type="tel" defaultValue={cliente?.celular ?? ''} />
+          <Campo nombre="celular" etiqueta="Celular" error={errores.celular}>
+            <Input
+              id="celular"
+              name="celular"
+              type="tel"
+              defaultValue={cliente?.celular ?? ''}
+              aria-invalid={!!errores.celular}
+              required
+            />
           </Campo>
           <Campo nombre="correo" etiqueta="Correo" error={errores.correo}>
             <Input
@@ -66,12 +79,13 @@ export function FormCliente({ estados, cliente, disparador }: Props) {
               type="email"
               defaultValue={cliente?.correo ?? ''}
               aria-invalid={!!errores.correo}
+              required
             />
           </Campo>
-          <Campo nombre="giro" etiqueta="Giro">
-            <Input id="giro" name="giro" defaultValue={cliente?.giro ?? ''} />
+          <Campo nombre="giro" etiqueta="Giro" error={errores.giro}>
+            <Input id="giro" name="giro" defaultValue={cliente?.giro ?? ''} aria-invalid={!!errores.giro} required />
           </Campo>
-          <Campo nombre="estado_id" etiqueta="Estado *" error={errores.estado_id}>
+          <Campo nombre="estado_id" etiqueta="Estado" error={errores.estado_id}>
             <select
               id="estado_id"
               name="estado_id"
@@ -91,8 +105,12 @@ export function FormCliente({ estados, cliente, disparador }: Props) {
               name="medio_contacto"
               className={`${claseSelect} w-full`}
               defaultValue={cliente?.medio_contacto ?? ''}
+              aria-invalid={!!errores.medio_contacto}
+              required
             >
-              <option value="">—</option>
+              <option value="" disabled>
+                Selecciona…
+              </option>
               {MEDIOS_CONTACTO.map((m) => (
                 <option key={m} value={m}>
                   {ETIQUETA_MEDIO[m]}
@@ -106,8 +124,12 @@ export function FormCliente({ estados, cliente, disparador }: Props) {
               name="contactado_por"
               className={`${claseSelect} w-full`}
               defaultValue={cliente?.contactado_por ?? ''}
+              aria-invalid={!!errores.contactado_por}
+              required
             >
-              <option value="">—</option>
+              <option value="" disabled>
+                Selecciona…
+              </option>
               {CONTACTADO_POR.map((p) => (
                 <option key={p} value={p}>
                   {p}

@@ -8,71 +8,61 @@ function errorDe(resultado: ReturnType<typeof clienteSchema.safeParse> | ReturnT
   return resultado.error.issues.find((i) => i.path[0] === campo)?.message
 }
 
+const COMPLETO = {
+  nombre: 'Ana',
+  empresa: 'Ferretería Sur',
+  celular: '5512345678',
+  correo: 'ana@ejemplo.mx',
+  giro: 'Ferretería',
+  estado_id: UUID,
+  medio_contacto: 'llamada',
+  contactado_por: 'Todos',
+}
+
 describe('clienteSchema', () => {
-  it('acepta un cliente mínimo y deja los opcionales en null', () => {
-    const r = clienteSchema.safeParse({ nombre: 'Ana', estado_id: UUID })
+  it('acepta un cliente con todos los campos', () => {
+    const r = clienteSchema.safeParse(COMPLETO)
     expect(r.success).toBe(true)
-    expect(r.data).toEqual({
-      nombre: 'Ana',
-      empresa: null,
-      celular: null,
-      correo: null,
-      giro: null,
-      estado_id: UUID,
-      medio_contacto: null,
-      contactado_por: null,
-    })
+    expect(r.data).toEqual(COMPLETO)
   })
 
   it('rechaza nombre vacío o sólo espacios', () => {
-    expect(errorDe(clienteSchema.safeParse({ nombre: '', estado_id: UUID }), 'nombre')).toBe('El nombre es obligatorio')
-    expect(errorDe(clienteSchema.safeParse({ nombre: '   ', estado_id: UUID }), 'nombre')).toBe('El nombre es obligatorio')
+    expect(errorDe(clienteSchema.safeParse({ ...COMPLETO, nombre: '' }), 'nombre')).toBe('El nombre es obligatorio')
+    expect(errorDe(clienteSchema.safeParse({ ...COMPLETO, nombre: '   ' }), 'nombre')).toBe('El nombre es obligatorio')
   })
 
-  it('convierte opcionales vacíos o con espacios a null', () => {
-    const r = clienteSchema.safeParse({
-      nombre: 'Ana',
-      estado_id: UUID,
-      empresa: '',
-      correo: '  ',
-      giro: ' ',
-      celular: '',
-      medio_contacto: '',
-      contactado_por: '',
-    })
-    expect(r.success).toBe(true)
-    expect(r.data).toMatchObject({
-      empresa: null,
-      correo: null,
-      giro: null,
-      celular: null,
-      medio_contacto: null,
-      contactado_por: null,
-    })
+  it('exige todos los campos de texto (vacíos, con espacios o ausentes)', () => {
+    for (const campo of ['empresa', 'celular', 'correo', 'giro'] as const) {
+      expect(errorDe(clienteSchema.safeParse({ ...COMPLETO, [campo]: '' }), campo)).toBe('Este campo es obligatorio')
+      expect(errorDe(clienteSchema.safeParse({ ...COMPLETO, [campo]: '  ' }), campo)).toBe('Este campo es obligatorio')
+      const sinCampo: Partial<typeof COMPLETO> = { ...COMPLETO }
+      delete sinCampo[campo]
+      expect(errorDe(clienteSchema.safeParse(sinCampo), campo)).toBe('Este campo es obligatorio')
+    }
+  })
+
+  it('exige elegir medio de contacto y contactado por', () => {
+    expect(errorDe(clienteSchema.safeParse({ ...COMPLETO, medio_contacto: '' }), 'medio_contacto')).toBe('Selecciona una opción')
+    expect(errorDe(clienteSchema.safeParse({ ...COMPLETO, contactado_por: '' }), 'contactado_por')).toBe('Selecciona una opción')
   })
 
   it('recorta espacios de los textos', () => {
-    const r = clienteSchema.safeParse({ nombre: '  Ana  ', correo: ' A@B.MX ', estado_id: UUID })
+    const r = clienteSchema.safeParse({ ...COMPLETO, nombre: '  Ana  ', correo: ' A@B.MX ' })
     expect(r.data?.nombre).toBe('Ana')
     expect(r.data?.correo).toBe('A@B.MX')
   })
 
   it('rechaza correo inválido', () => {
-    expect(errorDe(clienteSchema.safeParse({ nombre: 'Ana', correo: 'ana@', estado_id: UUID }), 'correo')).toBe('Correo inválido')
+    expect(errorDe(clienteSchema.safeParse({ ...COMPLETO, correo: 'ana@' }), 'correo')).toBe('Correo inválido')
   })
 
   it('rechaza estado_id que no es uuid', () => {
-    expect(errorDe(clienteSchema.safeParse({ nombre: 'Ana', estado_id: 'xyz' }), 'estado_id')).toBeDefined()
+    expect(errorDe(clienteSchema.safeParse({ ...COMPLETO, estado_id: 'xyz' }), 'estado_id')).toBeDefined()
   })
 
   it('rechaza valores fuera de las listas fijas', () => {
-    expect(errorDe(clienteSchema.safeParse({ nombre: 'Ana', estado_id: UUID, medio_contacto: 'fax' }), 'medio_contacto')).toBeDefined()
-    expect(errorDe(clienteSchema.safeParse({ nombre: 'Ana', estado_id: UUID, contactado_por: 'Pedro' }), 'contactado_por')).toBeDefined()
-  })
-
-  it('acepta valores de las listas fijas', () => {
-    const r = clienteSchema.safeParse({ nombre: 'Ana', estado_id: UUID, medio_contacto: 'llamada', contactado_por: 'Todos' })
-    expect(r.data).toMatchObject({ medio_contacto: 'llamada', contactado_por: 'Todos' })
+    expect(errorDe(clienteSchema.safeParse({ ...COMPLETO, medio_contacto: 'fax' }), 'medio_contacto')).toBe('Selecciona una opción')
+    expect(errorDe(clienteSchema.safeParse({ ...COMPLETO, contactado_por: 'Pedro' }), 'contactado_por')).toBe('Selecciona una opción')
   })
 })
 

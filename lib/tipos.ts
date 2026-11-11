@@ -16,39 +16,39 @@ export type Database = {
         Row: {
           id: string
           nombre: string
-          empresa: string | null
-          celular: string | null
-          correo: string | null
-          giro: string | null
+          empresa: string
+          celular: string
+          correo: string
+          giro: string
           estado_id: string
-          medio_contacto: string | null
-          contactado_por: string | null
+          medio_contacto: string
+          contactado_por: string
           created_at: string
           updated_at: string
         }
         Insert: {
           id?: string
           nombre: string
-          empresa?: string | null
-          celular?: string | null
-          correo?: string | null
-          giro?: string | null
+          empresa: string
+          celular: string
+          correo: string
+          giro: string
           estado_id: string
-          medio_contacto?: string | null
-          contactado_por?: string | null
+          medio_contacto: string
+          contactado_por: string
           created_at?: string
           updated_at?: string
         }
         Update: {
           id?: string
           nombre?: string
-          empresa?: string | null
-          celular?: string | null
-          correo?: string | null
-          giro?: string | null
+          empresa?: string
+          celular?: string
+          correo?: string
+          giro?: string
           estado_id?: string
-          medio_contacto?: string | null
-          contactado_por?: string | null
+          medio_contacto?: string
+          contactado_por?: string
           created_at?: string
           updated_at?: string
         }

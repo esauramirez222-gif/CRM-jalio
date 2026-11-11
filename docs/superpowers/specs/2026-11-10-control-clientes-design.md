@@ -54,13 +54,13 @@ Datos iniciales (seed), en este orden: `StandBy` (1), `Contacto` (2), `Catálogo
 |---|---|---|
 | id | uuid | PK, default `gen_random_uuid()` |
 | nombre | text | NOT NULL, no vacío |
-| empresa | text | nullable |
-| celular | text | nullable |
-| correo | text | nullable; si viene, formato de correo válido |
-| giro | text | nullable |
+| empresa | text | NOT NULL, no vacío |
+| celular | text | NOT NULL, no vacío |
+| correo | text | NOT NULL, formato de correo válido |
+| giro | text | NOT NULL, no vacío |
 | estado_id | uuid | NOT NULL, FK → `estados.id` **ON DELETE RESTRICT** |
-| medio_contacto | text | nullable, CHECK en (`'redes'`, `'llamada'`, `'correo'`) |
-| contactado_por | text | nullable, CHECK en (`'Monica'`, `'Jaziel'`, `'Leonardo'`, `'Todos'`) |
+| medio_contacto | text | NOT NULL, CHECK en (`'redes'`, `'llamada'`, `'correo'`) |
+| contactado_por | text | NOT NULL, CHECK en (`'Monica'`, `'Jaziel'`, `'Leonardo'`, `'Todos'`) |
 | created_at | timestamptz | NOT NULL, default `now()` |
 | updated_at | timestamptz | NOT NULL, default `now()`, actualizado por trigger |
 
@@ -97,7 +97,7 @@ Correo y contraseña. Error genérico ante credenciales inválidas. Sin registro
 - Estado vacío: mensaje y botón "Nuevo cliente".
 
 ### Formulario de cliente (panel lateral, crear y editar)
-Campos de §4. Obligatorios: nombre y estado (en alta, por defecto el de menor `orden`). `medio_contacto` y `contactado_por` como selects con opción vacía. Validación con el mismo esquema zod en cliente y servidor; errores mostrados junto a cada campo.
+Campos de §4. Todos los campos son obligatorios (cambio pedido el 2026-11-11). Estado por defecto el de menor `orden`; `medio_contacto` y `contactado_por` como selects sin valor por defecto ("Selecciona…"). Validación con el mismo esquema zod en cliente y servidor; errores mostrados junto a cada campo.
 
 ### `/estados`
 Lista ordenada con nombre, color y número de clientes. Crear, renombrar, cambiar color, subir/bajar orden (↑↓ intercambia `orden` con el vecino). Eliminar:
