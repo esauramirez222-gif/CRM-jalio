@@ -1,12 +1,12 @@
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
 
-/** Logo de Jalio: versión de fondo blanco en tema claro y de fondo #111 en tema oscuro. */
+/** Logo de Jalio: PNG transparente; la "I" es negra en tema claro y blanca en oscuro. */
 export function LogoJalio({ tamano = 32, className }: { tamano?: number; className?: string }) {
   return (
     <>
       <Image
-        src="/jalio-logo-claro.jpg"
+        src="/jalio-logo-claro.png"
         alt="Jalio"
         width={tamano}
         height={tamano}
@@ -14,7 +14,7 @@ export function LogoJalio({ tamano = 32, className }: { tamano?: number; classNa
         className={cn('shrink-0 dark:hidden', className)}
       />
       <Image
-        src="/jalio-logo-oscuro.jpg"
+        src="/jalio-logo-oscuro.png"
         alt="Jalio"
         width={tamano}
         height={tamano}

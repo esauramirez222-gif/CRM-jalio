@@ -39,7 +39,7 @@ export function ListaEstados({ estados }: { estados: EstadoConTotal[] }) {
     <div className="grid gap-6 lg:grid-cols-[1fr_320px] lg:items-start">
       <section aria-labelledby="titulo-proceso" className="space-y-3">
         <div>
-          <h2 id="titulo-proceso" className="font-medium">
+          <h2 id="titulo-proceso" className="font-semibold tracking-tight">
             Proceso de venta
           </h2>
           <p className="text-sm text-muted-foreground">
@@ -54,9 +54,9 @@ export function ListaEstados({ estados }: { estados: EstadoConTotal[] }) {
           </p>
         )}
 
-        <ol className="divide-y rounded-lg border">
+        <ol className="glass divide-y divide-border overflow-hidden rounded-3xl">
           {estados.map((e, i) => (
-            <li key={e.id} className="p-3">
+            <li key={e.id} className="p-4 transition-colors duration-150 hover:bg-foreground/[0.02]">
               {editando === e.id ? (
                 <div className="space-y-3">
                   <p className="text-sm font-medium">Editar «{e.nombre}»</p>
@@ -71,7 +71,7 @@ export function ListaEstados({ estados }: { estados: EstadoConTotal[] }) {
               ) : (
                 <div className="flex flex-wrap items-center gap-3">
                   <span className="w-5 text-right text-sm tabular-nums text-muted-foreground">{i + 1}</span>
-                  <span className="size-3 shrink-0 rounded-full" style={{ backgroundColor: e.color }} aria-hidden />
+                  <span className="size-3 shrink-0 rounded-full ring-4 ring-foreground/[0.04]" style={{ backgroundColor: e.color }} aria-hidden />
                   <div className="min-w-32 flex-1">
                     <p className="font-medium">{e.nombre}</p>
                     <p className="text-xs text-muted-foreground">{clientes(e.total)}</p>
@@ -80,7 +80,7 @@ export function ListaEstados({ estados }: { estados: EstadoConTotal[] }) {
                   <div className="flex items-center gap-1">
                     <Button
                       variant="ghost"
-                      size="icon-sm"
+                      size="icon"
                       title="Mover arriba"
                       aria-label={`Mover ${e.nombre} arriba`}
                       disabled={pendiente || i === 0}
@@ -90,7 +90,7 @@ export function ListaEstados({ estados }: { estados: EstadoConTotal[] }) {
                     </Button>
                     <Button
                       variant="ghost"
-                      size="icon-sm"
+                      size="icon"
                       title="Mover abajo"
                       aria-label={`Mover ${e.nombre} abajo`}
                       disabled={pendiente || i === estados.length - 1}
@@ -124,7 +124,7 @@ export function ListaEstados({ estados }: { estados: EstadoConTotal[] }) {
                           </AlertDialogHeader>
                           <AlertDialogFooter>
                             <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                            <AlertDialogAction onClick={() => ejecutar(() => eliminarEstado(e.id))}>
+                            <AlertDialogAction variant="destructive" onClick={() => ejecutar(() => eliminarEstado(e.id))}>
                               Eliminar
                             </AlertDialogAction>
                           </AlertDialogFooter>
@@ -142,9 +142,9 @@ export function ListaEstados({ estados }: { estados: EstadoConTotal[] }) {
         </p>
       </section>
 
-      <section aria-labelledby="titulo-nuevo" className="space-y-3 rounded-lg border p-4">
+      <section aria-labelledby="titulo-nuevo" className="glass space-y-4 rounded-3xl p-5 lg:sticky lg:top-24">
         <div>
-          <h2 id="titulo-nuevo" className="font-medium">
+          <h2 id="titulo-nuevo" className="font-semibold tracking-tight">
             Nuevo estado
           </h2>
           <p className="text-sm text-muted-foreground">Se agrega al final del proceso; luego puedes moverlo.</p>

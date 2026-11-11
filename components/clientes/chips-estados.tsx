@@ -17,13 +17,22 @@ export function ChipsEstados({ estados, filtros }: { estados: EstadoResumen[]; f
             href={`/${construirQuery(filtros, { estado: e.id })}`}
             aria-current={activo ? 'page' : undefined}
             className={cn(
-              'inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm transition-colors',
-              activo ? 'border-foreground bg-foreground text-background' : 'hover:bg-muted',
+              'inline-flex h-9 items-center gap-2 rounded-full border px-3.5 text-sm font-medium whitespace-nowrap transition-all duration-200 outline-none focus-visible:ring-3 focus-visible:ring-ring/40 active:scale-[0.97]',
+              activo
+                ? 'border-transparent bg-foreground text-background shadow-sm'
+                : 'glass text-foreground/80 shadow-none hover:-translate-y-px hover:text-foreground',
             )}
           >
-            {e.color && <span className="size-2.5 rounded-full" style={{ backgroundColor: e.color }} aria-hidden />}
+            {e.color && <span className="size-2 rounded-full" style={{ backgroundColor: e.color }} aria-hidden />}
             {e.nombre}
-            <span className={cn('tabular-nums', activo ? 'opacity-80' : 'text-muted-foreground')}>· {e.total}</span>
+            <span
+              className={cn(
+                'min-w-5 rounded-full px-1.5 text-center text-xs tabular-nums',
+                activo ? 'bg-background/20' : 'bg-foreground/[0.06] text-muted-foreground',
+              )}
+            >
+              {e.total}
+            </span>
           </Link>
         )
       })}

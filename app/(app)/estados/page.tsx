@@ -13,9 +13,9 @@ export default async function EstadosPage() {
   const estados = (data ?? []).map(({ clientes, ...e }) => ({ ...e, total: clientes[0]?.count ?? 0 }))
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-xl font-semibold">Estados</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Estados</h1>
         <p className="text-sm text-muted-foreground">Las etapas por las que pasa un cliente, desde el primer contacto hasta el cierre.</p>
       </div>
       <ListaEstados estados={estados} />

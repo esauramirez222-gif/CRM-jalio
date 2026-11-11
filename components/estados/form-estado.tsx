@@ -92,7 +92,7 @@ export function FormEstado({ inicial, textoBoton, onGuardar, onListo, onCancelar
       )}
 
       <div className="flex gap-2">
-        <Button type="submit" disabled={pendiente}>
+        <Button type="submit" className="rounded-xl font-semibold" disabled={pendiente}>
           {pendiente ? 'Guardando…' : textoBoton}
         </Button>
         {onCancelar && (

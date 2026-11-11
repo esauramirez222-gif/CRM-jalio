@@ -48,31 +48,44 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/*
+ * Paleta Jalio: #ffffff, #000000, #ff6b2c.
+ * El naranja lleva texto NEGRO encima (7:1). Con blanco no pasa AA (2.9:1).
+ */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --jalio-naranja: #ff6b2c;
+  --background: #f5f5f7;
+  --foreground: #000000;
+  --card: rgb(255 255 255 / 0.62);
+  --card-foreground: #000000;
+  --popover: rgb(255 255 255 / 0.82);
+  --popover-foreground: #000000;
+  --primary: var(--jalio-naranja);
+  --primary-foreground: #000000;
+  --secondary: rgb(0 0 0 / 0.05);
+  --secondary-foreground: #000000;
+  --muted: rgb(0 0 0 / 0.04);
+  --muted-foreground: #5c5c63;
+  --accent: rgb(255 107 44 / 0.12);
+  --accent-foreground: #000000;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: rgb(0 0 0 / 0.08);
+  --input: rgb(0 0 0 / 0.12);
+  --ring: var(--jalio-naranja);
+  --radius: 0.75rem;
+
+  /* Vidrio */
+  --glass-borde: rgb(0 0 0 / 0.06);
+  --glass-brillo: inset 0 1px 0 rgb(255 255 255 / 0.7);
+  --glass-sombra: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 28px rgb(0 0 0 / 0.06);
+  --ambiente-1: rgb(255 107 44 / 0.16);
+  --ambiente-2: rgb(255 107 44 / 0.08);
+
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -85,24 +98,31 @@
 
 .dark {
   color-scheme: dark;
-  --background: oklch(0.178 0 0); /* #111, igual al fondo del logo oscuro */
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --background: #111111; /* igual al fondo del logo oscuro */
+  --foreground: #ffffff;
+  --card: rgb(255 255 255 / 0.05);
+  --card-foreground: #ffffff;
+  --popover: rgb(28 28 30 / 0.85);
+  --popover-foreground: #ffffff;
+  --primary: var(--jalio-naranja);
+  --primary-foreground: #000000;
+  --secondary: rgb(255 255 255 / 0.08);
+  --secondary-foreground: #ffffff;
+  --muted: rgb(255 255 255 / 0.06);
+  --muted-foreground: #a1a1aa;
+  --accent: rgb(255 107 44 / 0.16);
+  --accent-foreground: #ffffff;
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --border: rgb(255 255 255 / 0.09);
+  --input: rgb(255 255 255 / 0.14);
+  --ring: var(--jalio-naranja);
+
+  --glass-borde: rgb(255 255 255 / 0.08);
+  --glass-brillo: inset 0 1px 0 rgb(255 255 255 / 0.06);
+  --glass-sombra: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 40px rgb(0 0 0 / 0.45);
+  --ambiente-1: rgb(255 107 44 / 0.14);
+  --ambiente-2: rgb(255 107 44 / 0.06);
+
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -118,12 +138,48 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* Superficie de vidrio: fondo translúcido + desenfoque + borde y brillo sutiles. */
+@utility glass {
+  background-color: var(--card);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-borde);
+  box-shadow: var(--glass-brillo), var(--glass-sombra);
+}
+
+/* Entrada discreta del contenido de cada pantalla. */
+@keyframes entrada {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@utility animate-entrada {
+  animation: entrada 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+    /* Resplandor naranja muy tenue: da algo que desenfocar al vidrio. */
+    background-image:
+      radial-gradient(60rem 40rem at 0% -10%, var(--ambiente-1), transparent 60%),
+      radial-gradient(50rem 36rem at 110% 110%, var(--ambiente-2), transparent 60%);
+    background-attachment: fixed;
+  }
+  ::selection {
+    background: rgb(255 107 44 / 0.3);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
   }
   html {
     @apply font-sans;

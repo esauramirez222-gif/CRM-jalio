@@ -1,5 +1,6 @@
 'use client'
 
+import { Loader2, Trash2 } from 'lucide-react'
 import { useState, useTransition } from 'react'
 import { eliminarCliente } from '@/app/(app)/clientes/actions'
 import {
@@ -30,17 +31,30 @@ export function EliminarCliente({ id, nombre }: { id: string; nombre: string }) 
   return (
     <>
       <AlertDialog>
-        <AlertDialogTrigger render={<Button variant="outline" size="sm" disabled={pendiente} />}>
-          Eliminar
+        <AlertDialogTrigger
+          render={
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-xl text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+              disabled={pendiente}
+              aria-label={`Eliminar a ${nombre}`}
+              title="Eliminar"
+            />
+          }
+        >
+          {pendiente ? <Loader2 className="animate-spin" aria-hidden /> : <Trash2 aria-hidden />}
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>¿Eliminar a «{nombre}»?</AlertDialogTitle>
-            <AlertDialogDescription>Esta acción no se puede deshacer.</AlertDialogDescription>
+            <AlertDialogDescription>Se borrará el cliente y sus datos. Esta acción no se puede deshacer.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={eliminar}>Eliminar</AlertDialogAction>
+            <AlertDialogAction variant="destructive" onClick={eliminar}>
+              Eliminar
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

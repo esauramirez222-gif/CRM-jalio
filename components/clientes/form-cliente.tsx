@@ -142,7 +142,7 @@ export function FormCliente({ estados, cliente, disparador }: Props) {
               {resultado.error}
             </p>
           )}
-          <Button type="submit" className="w-full" disabled={pendiente}>
+          <Button type="submit" size="lg" className="h-11 w-full rounded-xl font-semibold" disabled={pendiente}>
             {pendiente ? 'Guardando…' : 'Guardar'}
           </Button>
         </form>
