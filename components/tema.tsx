@@ -1,6 +1,6 @@
 'use client'
 
-import { Monitor, Moon, Sun } from 'lucide-react'
+import { Moon, Sun } from 'lucide-react'
 import { ThemeProvider, useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
@@ -14,30 +14,29 @@ export function ProveedorTema({ children }: { children: React.ReactNode }) {
   )
 }
 
-const SIGUIENTE = { light: 'dark', dark: 'system', system: 'light' } as const
-const ETIQUETA = { light: 'Tema claro', dark: 'Tema oscuro', system: 'Tema del sistema' } as const
-
-/** Botón que alterna claro → oscuro → sistema. */
+/**
+ * Botón sol/luna: alterna entre claro y oscuro.
+ * Muestra el tema activo (sol = claro, luna = oscuro); sin elección previa sigue al sistema.
+ */
 export function BotonTema() {
-  const { theme, setTheme } = useTheme()
+  const { resolvedTheme, setTheme } = useTheme()
   const [montado, setMontado] = useState(false)
-  // El tema guardado sólo se conoce en el navegador; antes de montar se muestra un icono neutro.
+  // El tema real sólo se conoce en el navegador; antes de montar no se pinta icono.
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMontado(true), [])
 
-  const actual = (montado ? theme : 'system') as keyof typeof SIGUIENTE
-  const Icono = actual === 'light' ? Sun : actual === 'dark' ? Moon : Monitor
-  const siguiente = SIGUIENTE[actual] ?? 'light'
+  const oscuro = resolvedTheme === 'dark'
+  const etiqueta = oscuro ? 'Tema oscuro. Cambiar a tema claro' : 'Tema claro. Cambiar a tema oscuro'
 
   return (
     <Button
       variant="ghost"
       size="icon-sm"
-      title={`${ETIQUETA[actual]} (cambiar a ${ETIQUETA[siguiente].toLowerCase()})`}
-      aria-label={`${ETIQUETA[actual]}. Cambiar a ${ETIQUETA[siguiente].toLowerCase()}`}
-      onClick={() => setTheme(siguiente)}
+      title={montado ? etiqueta : undefined}
+      aria-label={montado ? etiqueta : 'Cambiar tema'}
+      onClick={() => setTheme(oscuro ? 'light' : 'dark')}
     >
-      <Icono />
+      {montado && (oscuro ? <Moon /> : <Sun />)}
     </Button>
   )
 }
