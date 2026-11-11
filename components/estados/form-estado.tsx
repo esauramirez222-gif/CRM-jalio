@@ -19,7 +19,10 @@ export function FormEstado({ inicial, textoBoton, onGuardar, onListo, onCancelar
   const [pendiente, iniciar] = useTransition()
   const campos = resultado && !resultado.ok ? resultado.camposConError : undefined
 
-  function enviar(fd: FormData) {
+  // onSubmit (no `action`): React 19 resetea el form tras una action y se perderían los datos si hay errores.
+  function enviar(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const fd = new FormData(e.currentTarget)
     iniciar(async () => {
       const r = await onGuardar(fd)
       setResultado(r)
@@ -28,7 +31,7 @@ export function FormEstado({ inicial, textoBoton, onGuardar, onListo, onCancelar
   }
 
   return (
-    <form action={enviar} className="flex flex-wrap items-start gap-2">
+    <form onSubmit={enviar} className="flex flex-wrap items-start gap-2">
       <div className="min-w-48 flex-1">
         <Input
           name="nombre"

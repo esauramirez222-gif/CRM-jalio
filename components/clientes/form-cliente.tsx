@@ -30,7 +30,10 @@ export function FormCliente({ estados, cliente, disparador }: Props) {
     if (!v) setResultado(null)
   }
 
-  function enviar(fd: FormData) {
+  // onSubmit (no `action`): React 19 resetea el form tras una action y se perderían los datos si hay errores.
+  function enviar(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const fd = new FormData(e.currentTarget)
     iniciar(async () => {
       const r = cliente ? await actualizarCliente(cliente.id, fd) : await crearCliente(fd)
       setResultado(r)
@@ -46,7 +49,7 @@ export function FormCliente({ estados, cliente, disparador }: Props) {
           <SheetTitle>{cliente ? 'Editar cliente' : 'Nuevo cliente'}</SheetTitle>
           <SheetDescription>Sólo el nombre y el estado son obligatorios.</SheetDescription>
         </SheetHeader>
-        <form action={enviar} className="space-y-4 px-4 pb-4" noValidate>
+        <form onSubmit={enviar} className="space-y-4 px-4 pb-4" noValidate>
           <Campo nombre="nombre" etiqueta="Nombre *" error={errores.nombre}>
             <Input id="nombre" name="nombre" defaultValue={cliente?.nombre} aria-invalid={!!errores.nombre} required />
           </Campo>
