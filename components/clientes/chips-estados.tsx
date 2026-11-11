@@ -17,7 +17,7 @@ export function ChipsEstados({ estados, filtros }: { estados: EstadoResumen[]; f
             href={`/${construirQuery(filtros, { estado: e.id })}`}
             aria-current={activo ? 'page' : undefined}
             className={cn(
-              'inline-flex h-9 items-center gap-2 rounded-xl border px-3.5 text-sm font-medium whitespace-nowrap transition-all duration-200 outline-none focus-visible:ring-3 focus-visible:ring-ring/40 active:scale-[0.97]',
+              'inline-flex h-10 items-center gap-2 rounded-xl border px-4 text-sm font-medium whitespace-nowrap transition-all duration-200 outline-none focus-visible:ring-3 focus-visible:ring-ring/40 active:scale-[0.97]',
               activo
                 ? 'border-transparent bg-foreground text-background shadow-sm'
                 : 'glass text-foreground/80 shadow-none hover:-translate-y-px hover:text-foreground',

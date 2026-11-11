@@ -24,7 +24,7 @@ export function NavPrincipal() {
             href={href}
             aria-current={activo ? 'page' : undefined}
             className={cn(
-              'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring',
+              'flex h-9 items-center gap-1.5 rounded-lg px-3.5 text-sm font-medium transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring',
               activo
                 ? 'bg-background text-foreground shadow-sm dark:bg-white/10'
                 : 'text-muted-foreground hover:text-foreground',
