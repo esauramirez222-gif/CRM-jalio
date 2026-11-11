@@ -1,6 +1,7 @@
 'use client'
 
 import { useActionState } from 'react'
+import { LogoJalio } from '@/components/logo-jalio'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -12,9 +13,12 @@ export default function LoginPage() {
   return (
     <main className="flex flex-1 items-center justify-center bg-muted/40 p-4">
       <form action={accion} className="w-full max-w-sm space-y-4 rounded-lg border bg-background p-6 shadow-sm">
-        <div className="space-y-1">
-          <h1 className="text-xl font-semibold">SC-Jalio</h1>
-          <p className="text-sm text-muted-foreground">Inicia sesión para ver a tus clientes.</p>
+        <div className="flex flex-col items-center gap-3 pb-2 text-center">
+          <LogoJalio tamano={64} className="rounded-xl" />
+          <div className="space-y-1">
+            <h1 className="text-xl font-semibold">SC-Jalio</h1>
+            <p className="text-sm text-muted-foreground">Inicia sesión para ver a tus clientes.</p>
+          </div>
         </div>
         <div className="space-y-2">
           <Label htmlFor="email">Correo</Label>

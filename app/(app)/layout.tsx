@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { LogoJalio } from '@/components/logo-jalio'
 import { Button } from '@/components/ui/button'
 import { cerrarSesion } from '@/app/login/actions'
 import { requerirSesion } from '@/lib/sesion'
@@ -11,7 +12,10 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     <div className="flex flex-1 flex-col">
       <header className="border-b">
         <div className="mx-auto flex max-w-6xl items-center gap-6 px-4 py-3">
-          <span className="font-semibold">SC-Jalio</span>
+          <Link href="/" className="flex items-center gap-2 font-semibold">
+            <LogoJalio />
+            <span>SC-Jalio</span>
+          </Link>
           <nav className="flex gap-4 text-sm">
             <Link href="/" className="hover:underline">
               Clientes
