@@ -14,7 +14,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3 sm:gap-6">
           <Link href="/" className="flex shrink-0 items-center gap-2 font-semibold whitespace-nowrap">
             <LogoJalio />
-            <span>SC-Jalio</span>
+            <span className="hidden sm:inline">SC-Jalio</span>
           </Link>
           <nav className="flex gap-4 text-sm">
             <Link href="/" className="hover:underline">

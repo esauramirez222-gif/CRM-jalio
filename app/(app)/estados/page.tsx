@@ -16,7 +16,7 @@ export default async function EstadosPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-xl font-semibold">Estados</h1>
-        <p className="text-sm text-muted-foreground">Las etapas por las que pasa un cliente, en orden.</p>
+        <p className="text-sm text-muted-foreground">Las etapas por las que pasa un cliente, desde el primer contacto hasta el cierre.</p>
       </div>
       <ListaEstados estados={estados} />
     </div>

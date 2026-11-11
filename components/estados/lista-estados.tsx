@@ -1,5 +1,6 @@
 'use client'
 
+import { ArrowDown, ArrowUp, Pencil, Trash2 } from 'lucide-react'
 import { useState, useTransition } from 'react'
 import { actualizarEstado, crearEstado, eliminarEstado, moverEstado } from '@/app/(app)/estados/actions'
 import {
@@ -19,6 +20,8 @@ import { FormEstado } from './form-estado'
 
 export type EstadoConTotal = { id: string; nombre: string; orden: number; color: string; total: number }
 
+const clientes = (n: number) => `${n} ${n === 1 ? 'cliente' : 'clientes'}`
+
 export function ListaEstados({ estados }: { estados: EstadoConTotal[] }) {
   const [editando, setEditando] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -33,85 +36,121 @@ export function ListaEstados({ estados }: { estados: EstadoConTotal[] }) {
   }
 
   return (
-    <div className="space-y-4">
-      <section className="rounded-lg border p-4">
-        <h2 className="mb-3 text-sm font-medium">Nuevo estado</h2>
-        <FormEstado key={estados.length} textoBoton="Agregar" onGuardar={crearEstado} />
+    <div className="grid gap-6 lg:grid-cols-[1fr_320px] lg:items-start">
+      <section aria-labelledby="titulo-proceso" className="space-y-3">
+        <div>
+          <h2 id="titulo-proceso" className="font-medium">
+            Proceso de venta
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            El orden de esta lista es el orden del proceso: así aparecen los estados en los chips y en el formulario de
+            clientes. Usa las flechas para moverlos.
+          </p>
+        </div>
+
+        {error && (
+          <p role="alert" className="text-sm text-destructive">
+            {error}
+          </p>
+        )}
+
+        <ol className="divide-y rounded-lg border">
+          {estados.map((e, i) => (
+            <li key={e.id} className="p-3">
+              {editando === e.id ? (
+                <div className="space-y-3">
+                  <p className="text-sm font-medium">Editar «{e.nombre}»</p>
+                  <FormEstado
+                    inicial={e}
+                    textoBoton="Guardar cambios"
+                    onGuardar={(fd) => actualizarEstado(e.id, fd)}
+                    onListo={() => setEditando(null)}
+                    onCancelar={() => setEditando(null)}
+                  />
+                </div>
+              ) : (
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="w-5 text-right text-sm tabular-nums text-muted-foreground">{i + 1}</span>
+                  <span className="size-3 shrink-0 rounded-full" style={{ backgroundColor: e.color }} aria-hidden />
+                  <div className="min-w-32 flex-1">
+                    <p className="font-medium">{e.nombre}</p>
+                    <p className="text-xs text-muted-foreground">{clientes(e.total)}</p>
+                  </div>
+
+                  <div className="flex items-center gap-1">
+                    <Button
+                      variant="ghost"
+                      size="icon-sm"
+                      title="Mover arriba"
+                      aria-label={`Mover ${e.nombre} arriba`}
+                      disabled={pendiente || i === 0}
+                      onClick={() => ejecutar(() => moverEstado(e.id, 'arriba'))}
+                    >
+                      <ArrowUp />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon-sm"
+                      title="Mover abajo"
+                      aria-label={`Mover ${e.nombre} abajo`}
+                      disabled={pendiente || i === estados.length - 1}
+                      onClick={() => ejecutar(() => moverEstado(e.id, 'abajo'))}
+                    >
+                      <ArrowDown />
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={() => setEditando(e.id)}>
+                      <Pencil data-icon="inline-start" />
+                      Editar
+                    </Button>
+                    {e.total > 0 ? (
+                      <span title={`Mueve sus ${clientes(e.total)} a otro estado para poder eliminarlo`}>
+                        <Button variant="outline" size="sm" disabled aria-label={`No se puede eliminar ${e.nombre}: tiene clientes`}>
+                          <Trash2 data-icon="inline-start" />
+                          Eliminar
+                        </Button>
+                      </span>
+                    ) : (
+                      <AlertDialog>
+                        <AlertDialogTrigger render={<Button variant="outline" size="sm" disabled={pendiente} />}>
+                          <Trash2 data-icon="inline-start" />
+                          Eliminar
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>¿Eliminar «{e.nombre}»?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Desaparecerá de los chips y del formulario de clientes. Esta acción no se puede deshacer.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                            <AlertDialogAction onClick={() => ejecutar(() => eliminarEstado(e.id))}>
+                              Eliminar
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    )}
+                  </div>
+                </div>
+              )}
+            </li>
+          ))}
+        </ol>
+        <p className="text-xs text-muted-foreground">
+          Un estado con clientes no se puede eliminar: primero cámbialos a otro estado desde la pantalla de Clientes.
+        </p>
       </section>
 
-      {error && (
-        <p role="alert" className="text-sm text-destructive">
-          {error}
-        </p>
-      )}
-
-      <ul className="divide-y rounded-lg border">
-        {estados.map((e, i) => (
-          <li key={e.id} className="flex flex-wrap items-center gap-3 p-3">
-            {editando === e.id ? (
-              <div className="flex-1">
-                <FormEstado
-                  inicial={e}
-                  textoBoton="Guardar"
-                  onGuardar={(fd) => actualizarEstado(e.id, fd)}
-                  onListo={() => setEditando(null)}
-                  onCancelar={() => setEditando(null)}
-                />
-              </div>
-            ) : (
-              <>
-                <span className="size-3 shrink-0 rounded-full" style={{ backgroundColor: e.color }} aria-hidden />
-                <span className="font-medium">{e.nombre}</span>
-                <span className="text-sm text-muted-foreground">
-                  {e.total} {e.total === 1 ? 'cliente' : 'clientes'}
-                </span>
-                <div className="ml-auto flex gap-1">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    aria-label={`Subir ${e.nombre}`}
-                    disabled={pendiente || i === 0}
-                    onClick={() => ejecutar(() => moverEstado(e.id, 'arriba'))}
-                  >
-                    ↑
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    aria-label={`Bajar ${e.nombre}`}
-                    disabled={pendiente || i === estados.length - 1}
-                    onClick={() => ejecutar(() => moverEstado(e.id, 'abajo'))}
-                  >
-                    ↓
-                  </Button>
-                  <Button variant="outline" size="sm" onClick={() => setEditando(e.id)}>
-                    Editar
-                  </Button>
-                  <AlertDialog>
-                    <AlertDialogTrigger render={<Button variant="outline" size="sm" disabled={pendiente} />}>
-                      Eliminar
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>¿Eliminar «{e.nombre}»?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          {e.total > 0
-                            ? `Tiene ${e.total} ${e.total === 1 ? 'cliente' : 'clientes'}; muévelos a otro estado primero.`
-                            : 'Esta acción no se puede deshacer.'}
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                        <AlertDialogAction onClick={() => ejecutar(() => eliminarEstado(e.id))}>Eliminar</AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-                </div>
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
+      <section aria-labelledby="titulo-nuevo" className="space-y-3 rounded-lg border p-4">
+        <div>
+          <h2 id="titulo-nuevo" className="font-medium">
+            Nuevo estado
+          </h2>
+          <p className="text-sm text-muted-foreground">Se agrega al final del proceso; luego puedes moverlo.</p>
+        </div>
+        <FormEstado key={estados.length} textoBoton="Agregar estado" onGuardar={crearEstado} />
+      </section>
     </div>
   )
 }
