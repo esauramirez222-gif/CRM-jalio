@@ -11,15 +11,26 @@ import type { ClienteFila, EstadoResumen } from '@/lib/consultas'
 import type { Resultado } from '@/lib/resultado'
 import { claseSelect } from './barra-filtros'
 
+/** Lo que el formulario usa de un cliente (sirve con filas de la lista o del tablero). */
+type ClienteEditable = Pick<
+  ClienteFila,
+  'id' | 'nombre' | 'empresa' | 'celular' | 'correo' | 'giro' | 'estado_id' | 'medio_contacto' | 'contactado_por'
+>
 
 type Props = {
-  estados: EstadoResumen[]
-  cliente?: ClienteFila
-  disparador: React.ReactElement
-}
+  estados: Pick<EstadoResumen, 'id' | 'nombre'>[]
+  cliente?: ClienteEditable
+} & (
+  | { disparador: React.ReactElement; abierto?: never; onAbiertoCambia?: never }
+  /** Modo controlado: sin botón propio; quien lo usa decide cuándo se abre (p. ej. clic en una card). */
+  | { disparador?: never; abierto: boolean; onAbiertoCambia: (v: boolean) => void }
+)
 
-export function FormCliente({ estados, cliente, disparador }: Props) {
-  const [abierto, setAbierto] = useState(false)
+export function FormCliente({ estados, cliente, disparador, abierto: abiertoExterno, onAbiertoCambia }: Props) {
+  const [abiertoInterno, setAbiertoInterno] = useState(false)
+  const controlado = abiertoExterno !== undefined
+  const abierto = controlado ? abiertoExterno : abiertoInterno
+  const setAbierto = controlado ? onAbiertoCambia! : setAbiertoInterno
   const [resultado, setResultado] = useState<Resultado | null>(null)
   const [pendiente, iniciar] = useTransition()
   const errores = resultado && !resultado.ok ? (resultado.camposConError ?? {}) : {}
@@ -36,13 +47,13 @@ export function FormCliente({ estados, cliente, disparador }: Props) {
     iniciar(async () => {
       const r = cliente ? await actualizarCliente(cliente.id, fd) : await crearCliente(fd)
       setResultado(r)
-      if (r.ok) setAbierto(false)
+      if (r.ok) cambiarAbierto(false)
     })
   }
 
   return (
     <Sheet open={abierto} onOpenChange={cambiarAbierto}>
-      <SheetTrigger render={disparador} />
+      {disparador && <SheetTrigger render={disparador} />}
       <SheetContent className="overflow-y-auto">
         <SheetHeader>
           <SheetTitle>{cliente ? 'Editar cliente' : 'Nuevo cliente'}</SheetTitle>

@@ -13,7 +13,7 @@ export function Paginacion({ filtros, total }: { filtros: Filtros; total: number
   return (
     <nav aria-label="Paginación" className="flex items-center justify-end gap-3 text-sm">
       {pagina > 1 && (
-        <Link className={clase} href={`/${construirQuery(filtros, { pagina: pagina - 1 })}`}>
+        <Link className={clase} href={`/clientes${construirQuery(filtros, { pagina: pagina - 1 })}`}>
           Anterior
         </Link>
       )}
@@ -21,7 +21,7 @@ export function Paginacion({ filtros, total }: { filtros: Filtros; total: number
         Página {Math.min(pagina, paginas)} de {paginas}
       </span>
       {pagina < paginas && (
-        <Link className={clase} href={`/${construirQuery(filtros, { pagina: pagina + 1 })}`}>
+        <Link className={clase} href={`/clientes${construirQuery(filtros, { pagina: pagina + 1 })}`}>
           Siguiente
         </Link>
       )}

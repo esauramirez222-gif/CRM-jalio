@@ -34,6 +34,31 @@ export async function listarClientes(
   return { filas: (data ?? []) as ClienteFila[], total: count ?? 0, fueraDeRango: false }
 }
 
+export type ClienteTablero = Pick<
+  Database['public']['Tables']['clientes']['Row'],
+  | 'id'
+  | 'empresa'
+  | 'nombre'
+  | 'celular'
+  | 'correo'
+  | 'giro'
+  | 'estado_id'
+  | 'medio_contacto'
+  | 'contactado_por'
+  | 'updated_at'
+>
+
+/** Todos los clientes para el tablero (sin paginación; pensado para cientos, no decenas de miles). */
+export async function listarParaTablero(supabase: Cliente): Promise<ClienteTablero[]> {
+  const { data, error } = await supabase
+    .from('clientes')
+    .select('id, empresa, nombre, celular, correo, giro, estado_id, medio_contacto, contactado_por, updated_at')
+    .order('updated_at', { ascending: false })
+    .limit(2000)
+  if (error) throw new Error('No se pudieron cargar los clientes')
+  return data ?? []
+}
+
 export async function conteosPorEstado(supabase: Cliente): Promise<EstadoResumen[]> {
   const { data, error } = await supabase
     .from('estados')

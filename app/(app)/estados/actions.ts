@@ -10,6 +10,7 @@ import { requerirSesion } from '@/lib/sesion'
 function refrescar(): Resultado {
   revalidatePath('/estados')
   revalidatePath('/')
+  revalidatePath('/clientes')
   return { ok: true }
 }
 

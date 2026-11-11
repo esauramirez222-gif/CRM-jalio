@@ -1,12 +1,13 @@
 'use client'
 
-import { Layers, Users } from 'lucide-react'
+import { Kanban, Layers, Users } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 
 const ENLACES = [
-  { href: '/', texto: 'Clientes', Icono: Users },
+  { href: '/', texto: 'Tablero', Icono: Kanban },
+  { href: '/clientes', texto: 'Clientes', Icono: Users },
   { href: '/estados', texto: 'Estados', Icono: Layers },
 ] as const
 

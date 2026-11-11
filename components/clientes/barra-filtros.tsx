@@ -20,7 +20,7 @@ export function BarraFiltros({ filtros }: { filtros: Filtros }) {
       primera.current = false
       return
     }
-    const t = setTimeout(() => router.replace(`/${construirQuery(filtros, { q: q.trim() })}`), 300)
+    const t = setTimeout(() => router.replace(`/clientes${construirQuery(filtros, { q: q.trim() })}`), 300)
     return () => clearTimeout(t)
     // Sólo reaccionar al texto escrito, no a cambios de filtros externos.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -47,7 +47,7 @@ export function BarraFiltros({ filtros }: { filtros: Filtros }) {
         className={claseSelect}
         value={filtros.por ?? ''}
         onChange={(e) =>
-          router.replace(`/${construirQuery(filtros, { por: (e.target.value || null) as ContactadoPor | null })}`)
+          router.replace(`/clientes${construirQuery(filtros, { por: (e.target.value || null) as ContactadoPor | null })}`)
         }
       >
         <option value="">Contactado por: todos</option>
