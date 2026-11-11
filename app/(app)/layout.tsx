@@ -31,7 +31,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
               <span className="hidden items-center gap-2 pr-1 text-sm text-muted-foreground md:flex">
                 <span
                   aria-hidden
-                  className="flex size-7 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground"
+                  className="flex size-7 items-center justify-center rounded-2xl bg-primary text-xs font-semibold text-primary-foreground"
                 >
                   {inicial}
                 </span>

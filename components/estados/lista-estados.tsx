@@ -71,7 +71,7 @@ export function ListaEstados({ estados }: { estados: EstadoConTotal[] }) {
               ) : (
                 <div className="flex flex-wrap items-center gap-3">
                   <span className="w-5 text-right text-sm tabular-nums text-muted-foreground">{i + 1}</span>
-                  <span className="size-3 shrink-0 rounded-full ring-4 ring-foreground/[0.04]" style={{ backgroundColor: e.color }} aria-hidden />
+                  <span className="size-3 shrink-0 rounded-2xl ring-4 ring-foreground/[0.04]" style={{ backgroundColor: e.color }} aria-hidden />
                   <div className="min-w-32 flex-1">
                     <p className="font-medium">{e.nombre}</p>
                     <p className="text-xs text-muted-foreground">{clientes(e.total)}</p>

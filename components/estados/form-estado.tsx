@@ -72,7 +72,7 @@ export function FormEstado({ inicial, textoBoton, onGuardar, onListo, onCancelar
                 aria-pressed={elegido}
                 onClick={() => setColor(c.valor)}
                 className={cn(
-                  'flex size-7 items-center justify-center rounded-full ring-offset-2 ring-offset-background transition-shadow',
+                  'flex size-7 items-center justify-center rounded-2xl ring-offset-2 ring-offset-background transition-shadow',
                   elegido ? 'ring-2 ring-foreground' : 'hover:ring-2 hover:ring-muted-foreground/40',
                 )}
                 style={{ backgroundColor: c.valor }}

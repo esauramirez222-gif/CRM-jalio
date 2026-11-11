@@ -32,7 +32,7 @@ export function TablaClientes({ filas, estados }: { filas: ClienteFila[]; estado
                 <div className="flex items-center gap-3">
                   <span
                     aria-hidden
-                    className="flex size-9 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-semibold text-foreground"
+                    className="flex size-9 shrink-0 items-center justify-center rounded-2xl bg-accent text-sm font-semibold text-foreground"
                   >
                     {c.nombre.charAt(0).toUpperCase()}
                   </span>

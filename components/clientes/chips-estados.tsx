@@ -23,11 +23,11 @@ export function ChipsEstados({ estados, filtros }: { estados: EstadoResumen[]; f
                 : 'glass text-foreground/80 shadow-none hover:-translate-y-px hover:text-foreground',
             )}
           >
-            {e.color && <span className="size-2 rounded-full" style={{ backgroundColor: e.color }} aria-hidden />}
+            {e.color && <span className="size-2 rounded-2xl" style={{ backgroundColor: e.color }} aria-hidden />}
             {e.nombre}
             <span
               className={cn(
-                'min-w-5 rounded-full px-1.5 text-center text-xs tabular-nums',
+                'min-w-5 rounded-2xl px-1.5 text-center text-xs tabular-nums',
                 activo ? 'bg-background/20' : 'bg-foreground/[0.06] text-muted-foreground',
               )}
             >

@@ -39,13 +39,14 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius); /* 12px */
-  --radius-xl: 1rem; /* 16px: tope para botones e inputs (rango 12–16px) */
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  /* Radio único de 16px para todo elemento redondeado (decisión de diseño). */
+  --radius-sm: 1rem;
+  --radius-md: 1rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1rem;
+  --radius-4xl: 1rem;
 }
 
 /*
@@ -72,7 +73,7 @@
   --border: rgb(0 0 0 / 0.08);
   --input: rgb(0 0 0 / 0.12);
   --ring: var(--jalio-naranja);
-  --radius: 0.75rem;
+  --radius: 1rem;
 
   /* Vidrio */
   --glass-borde: rgb(0 0 0 / 0.06);

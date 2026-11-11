@@ -30,7 +30,7 @@ export function SelectorEstado({ clienteId, nombreCliente, estadoId, estados }: 
   return (
     <div>
       <div className="flex items-center gap-2">
-        <span className="size-2.5 shrink-0 rounded-full" style={{ backgroundColor: color }} aria-hidden />
+        <span className="size-2.5 shrink-0 rounded-2xl" style={{ backgroundColor: color }} aria-hidden />
         <select
           aria-label={`Estado de ${nombreCliente}`}
           className={claseSelect}
