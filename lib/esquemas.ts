@@ -11,11 +11,18 @@ const SELECCIONA = 'Selecciona una opción'
 /** Texto obligatorio: recorta espacios; vacío, sólo espacios o ausente es error. */
 const textoObligatorio = z.string({ error: CAMPO_OBLIGATORIO }).trim().min(1, CAMPO_OBLIGATORIO)
 
+/** Texto opcional: recorta espacios; vacío, sólo espacios o ausente se guarda como null. */
+const textoOpcional = z
+  .string()
+  .trim()
+  .optional()
+  .transform((v) => v || null)
+
 export const clienteSchema = z.object({
   nombre,
   empresa: textoObligatorio,
-  celular: textoObligatorio,
-  correo: textoObligatorio.pipe(z.email({ error: 'Correo inválido' })),
+  celular: textoOpcional,
+  correo: textoOpcional.pipe(z.email({ error: 'Correo inválido' }).nullable()),
   giro: textoObligatorio,
   estado_id: z.uuid({ error: 'Selecciona un estado' }),
   medio_contacto: z.enum(MEDIOS_CONTACTO, { error: SELECCIONA }),

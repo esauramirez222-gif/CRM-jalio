@@ -17,8 +17,8 @@ export type Database = {
           id: string
           nombre: string
           empresa: string
-          celular: string
-          correo: string
+          celular: string | null
+          correo: string | null
           giro: string
           estado_id: string
           medio_contacto: string
@@ -30,8 +30,8 @@ export type Database = {
           id?: string
           nombre: string
           empresa: string
-          celular: string
-          correo: string
+          celular?: string | null
+          correo?: string | null
           giro: string
           estado_id: string
           medio_contacto: string
@@ -43,8 +43,8 @@ export type Database = {
           id?: string
           nombre?: string
           empresa?: string
-          celular?: string
-          correo?: string
+          celular?: string | null
+          correo?: string | null
           giro?: string
           estado_id?: string
           medio_contacto?: string

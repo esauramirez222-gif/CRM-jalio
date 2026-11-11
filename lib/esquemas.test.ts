@@ -31,8 +31,18 @@ describe('clienteSchema', () => {
     expect(errorDe(clienteSchema.safeParse({ ...COMPLETO, nombre: '   ' }), 'nombre')).toBe('El nombre es obligatorio')
   })
 
-  it('exige todos los campos de texto (vacíos, con espacios o ausentes)', () => {
-    for (const campo of ['empresa', 'celular', 'correo', 'giro'] as const) {
+  it('celular y correo son opcionales: vacíos, con espacios o ausentes se guardan como null', () => {
+    for (const campo of ['celular', 'correo'] as const) {
+      expect(clienteSchema.safeParse({ ...COMPLETO, [campo]: '' }).data?.[campo]).toBeNull()
+      expect(clienteSchema.safeParse({ ...COMPLETO, [campo]: '   ' }).data?.[campo]).toBeNull()
+      const sinCampo: Partial<typeof COMPLETO> = { ...COMPLETO }
+      delete sinCampo[campo]
+      expect(clienteSchema.safeParse(sinCampo).data?.[campo]).toBeNull()
+    }
+  })
+
+  it('exige empresa y giro (vacíos, con espacios o ausentes)', () => {
+    for (const campo of ['empresa', 'giro'] as const) {
       expect(errorDe(clienteSchema.safeParse({ ...COMPLETO, [campo]: '' }), campo)).toBe('Este campo es obligatorio')
       expect(errorDe(clienteSchema.safeParse({ ...COMPLETO, [campo]: '  ' }), campo)).toBe('Este campo es obligatorio')
       const sinCampo: Partial<typeof COMPLETO> = { ...COMPLETO }

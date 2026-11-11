@@ -44,14 +44,19 @@ export function TablaClientes({ filas, estados }: { filas: ClienteFila[]; estado
               </TableCell>
               <TableCell>
                 <div className="space-y-1 text-[13px]">
-                  <a href={`tel:${c.celular}`} className={enlace}>
-                    <Phone className="size-3.5" aria-hidden />
-                    {c.celular}
-                  </a>
-                  <a href={`mailto:${c.correo}`} className={enlace}>
-                    <Mail className="size-3.5" aria-hidden />
-                    {c.correo}
-                  </a>
+                  {c.celular && (
+                    <a href={`tel:${c.celular}`} className={enlace}>
+                      <Phone className="size-3.5" aria-hidden />
+                      {c.celular}
+                    </a>
+                  )}
+                  {c.correo && (
+                    <a href={`mailto:${c.correo}`} className={enlace}>
+                      <Mail className="size-3.5" aria-hidden />
+                      {c.correo}
+                    </a>
+                  )}
+                  {!c.celular && !c.correo && <span className="text-muted-foreground/70">Sin datos de contacto</span>}
                 </div>
               </TableCell>
               <TableCell className="text-muted-foreground">{c.giro}</TableCell>

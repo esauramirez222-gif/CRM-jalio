@@ -47,7 +47,7 @@ export function FormCliente({ estados, cliente, disparador }: Props) {
       <SheetContent className="overflow-y-auto">
         <SheetHeader>
           <SheetTitle>{cliente ? 'Editar cliente' : 'Nuevo cliente'}</SheetTitle>
-          <SheetDescription>Todos los campos son obligatorios.</SheetDescription>
+          <SheetDescription>Todos los campos son obligatorios, excepto celular y correo.</SheetDescription>
         </SheetHeader>
         <form onSubmit={enviar} className="space-y-4 px-4 pb-4" noValidate>
           <Campo nombre="nombre" etiqueta="Nombre" error={errores.nombre}>
@@ -62,24 +62,22 @@ export function FormCliente({ estados, cliente, disparador }: Props) {
               required
             />
           </Campo>
-          <Campo nombre="celular" etiqueta="Celular" error={errores.celular}>
+          <Campo nombre="celular" etiqueta="Celular" error={errores.celular} opcional>
             <Input
               id="celular"
               name="celular"
               type="tel"
               defaultValue={cliente?.celular ?? ''}
               aria-invalid={!!errores.celular}
-              required
             />
           </Campo>
-          <Campo nombre="correo" etiqueta="Correo" error={errores.correo}>
+          <Campo nombre="correo" etiqueta="Correo" error={errores.correo} opcional>
             <Input
               id="correo"
               name="correo"
               type="email"
               defaultValue={cliente?.correo ?? ''}
               aria-invalid={!!errores.correo}
-              required
             />
           </Campo>
           <Campo nombre="giro" etiqueta="Giro" error={errores.giro}>
@@ -157,16 +155,21 @@ function Campo({
   nombre,
   etiqueta,
   error,
+  opcional,
   children,
 }: {
   nombre: string
   etiqueta: string
   error?: string
+  opcional?: boolean
   children: React.ReactNode
 }) {
   return (
     <div className="space-y-1.5">
-      <Label htmlFor={nombre}>{etiqueta}</Label>
+      <Label htmlFor={nombre}>
+        {etiqueta}
+        {opcional && <span className="font-normal text-muted-foreground">(opcional)</span>}
+      </Label>
       {children}
       {error && <p className="text-xs text-destructive">{error}</p>}
     </div>
