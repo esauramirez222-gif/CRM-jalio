@@ -3,8 +3,14 @@ import { Button } from '@/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import type { ClienteFila, EstadoResumen } from '@/lib/consultas'
 import { EliminarCliente } from './eliminar-cliente'
-import { ETIQUETA_MEDIO, FormCliente } from './form-cliente'
+import { ETIQUETA_MEDIO, type MedioContacto } from '@/lib/constantes'
+import { FormCliente } from './form-cliente'
 import { SelectorEstado } from './selector-estado'
+
+// Encabezado fijo arriba y columna Cliente fija a la izquierda al desplazarse.
+const FIJA = 'bg-[var(--celda-fija)] backdrop-blur-xl'
+const TH_FIJO = `sticky top-0 z-20 ${FIJA} shadow-[inset_0_-1px_0_var(--border)]`
+const COL_FIJA = `sticky left-0 z-10 ${FIJA} shadow-[inset_-1px_0_0_var(--border)]`
 
 const enlace =
   'flex items-center gap-1.5 rounded-md text-muted-foreground transition-colors duration-150 hover:text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring'
@@ -12,15 +18,17 @@ const enlace =
 export function TablaClientes({ filas, estados }: { filas: ClienteFila[]; estados: EstadoResumen[] }) {
   return (
     <div className="glass overflow-hidden rounded-3xl">
-      <Table>
-        <TableHeader>
+      <Table containerClassName="max-h-[calc(100dvh-15rem)] min-h-48 overflow-auto overscroll-contain">
+        <TableHeader className="[&_tr]:border-b-0">
           <TableRow className="hover:bg-transparent">
-            <TableHead>Cliente</TableHead>
-            <TableHead>Contacto</TableHead>
-            <TableHead>Giro</TableHead>
-            <TableHead>Estado</TableHead>
-            <TableHead>Seguimiento</TableHead>
-            <TableHead>
+            <TableHead className={`${TH_FIJO} left-0 z-30 min-w-60 shadow-[inset_-1px_-1px_0_var(--border)]`}>
+              Cliente
+            </TableHead>
+            <TableHead className={TH_FIJO}>Contacto</TableHead>
+            <TableHead className={TH_FIJO}>Giro</TableHead>
+            <TableHead className={TH_FIJO}>Estado</TableHead>
+            <TableHead className={TH_FIJO}>Seguimiento</TableHead>
+            <TableHead className={TH_FIJO}>
               <span className="sr-only">Acciones</span>
             </TableHead>
           </TableRow>
@@ -28,7 +36,7 @@ export function TablaClientes({ filas, estados }: { filas: ClienteFila[]; estado
         <TableBody>
           {filas.map((c) => (
             <TableRow key={c.id} className="group">
-              <TableCell>
+              <TableCell className={`${COL_FIJA} min-w-60`}>
                 <div className="flex items-center gap-3">
                   <span
                     aria-hidden
@@ -75,7 +83,7 @@ export function TablaClientes({ filas, estados }: { filas: ClienteFila[]; estado
                     <span className="text-muted-foreground">Por </span>
                     <span className="font-medium">{c.contactado_por}</span>
                   </p>
-                  <p className="text-muted-foreground">vía {ETIQUETA_MEDIO[c.medio_contacto]?.toLowerCase()}</p>
+                  <p className="text-muted-foreground">vía {ETIQUETA_MEDIO[c.medio_contacto as MedioContacto]?.toLowerCase() ?? '—'}</p>
                 </div>
               </TableCell>
               <TableCell>

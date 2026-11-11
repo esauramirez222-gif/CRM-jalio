@@ -2,6 +2,13 @@
 export const MEDIOS_CONTACTO = ['redes', 'llamada', 'correo'] as const
 export type MedioContacto = (typeof MEDIOS_CONTACTO)[number]
 
+/** Texto a mostrar para cada medio. Vive aquí (no en un componente 'use client') para usarse también en el servidor. */
+export const ETIQUETA_MEDIO: Record<MedioContacto, string> = {
+  redes: 'Redes',
+  llamada: 'Llamada',
+  correo: 'Correo',
+}
+
 export const CONTACTADO_POR = ['Monica', 'Jaziel', 'Leonardo', 'Todos'] as const
 export type ContactadoPor = (typeof CONTACTADO_POR)[number]
 

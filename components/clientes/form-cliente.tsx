@@ -6,12 +6,11 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
-import { CONTACTADO_POR, MEDIOS_CONTACTO } from '@/lib/constantes'
+import { CONTACTADO_POR, ETIQUETA_MEDIO, MEDIOS_CONTACTO } from '@/lib/constantes'
 import type { ClienteFila, EstadoResumen } from '@/lib/consultas'
 import type { Resultado } from '@/lib/resultado'
 import { claseSelect } from './barra-filtros'
 
-const ETIQUETA_MEDIO: Record<string, string> = { redes: 'Redes', llamada: 'Llamada', correo: 'Correo' }
 
 type Props = {
   estados: EstadoResumen[]
@@ -149,7 +148,6 @@ export function FormCliente({ estados, cliente, disparador }: Props) {
   )
 }
 
-export { ETIQUETA_MEDIO }
 
 function Campo({
   nombre,

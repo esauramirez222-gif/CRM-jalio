@@ -81,6 +81,8 @@
   --glass-sombra: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 28px rgb(0 0 0 / 0.06);
   --ambiente-1: rgb(255 107 44 / 0.16);
   --ambiente-2: rgb(255 107 44 / 0.08);
+  /* Celdas fijas de la tabla (encabezado y primera columna): casi opacas + desenfoque. */
+  --celda-fija: rgb(252 252 253 / 0.97);
 
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
@@ -123,6 +125,7 @@
   --glass-sombra: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 40px rgb(0 0 0 / 0.45);
   --ambiente-1: rgb(255 107 44 / 0.14);
   --ambiente-2: rgb(255 107 44 / 0.06);
+  --celda-fija: rgb(30 30 32 / 0.97);
 
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
