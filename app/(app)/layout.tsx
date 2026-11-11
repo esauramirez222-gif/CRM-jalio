@@ -21,7 +21,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
             className="flex shrink-0 items-center gap-2.5 rounded-lg font-semibold tracking-tight whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <LogoJalio tamano={30} />
-            <span className="hidden sm:inline">SC-Jalio</span>
+            <span className="hidden sm:inline">CRM-Jalio</span>
           </Link>
 
           <NavPrincipal />
