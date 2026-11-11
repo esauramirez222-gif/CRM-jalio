@@ -15,7 +15,7 @@ export function NavPrincipal() {
   const ruta = usePathname()
 
   return (
-    <nav aria-label="Principal" className="flex items-center gap-1 rounded-full bg-foreground/[0.04] p-1">
+    <nav aria-label="Principal" className="flex items-center gap-1 rounded-xl bg-foreground/[0.04] p-1">
       {ENLACES.map(({ href, texto, Icono }) => {
         const activo = href === '/' ? ruta === '/' : ruta.startsWith(href)
         return (
@@ -24,7 +24,7 @@ export function NavPrincipal() {
             href={href}
             aria-current={activo ? 'page' : undefined}
             className={cn(
-              'flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring',
+              'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring',
               activo
                 ? 'bg-background text-foreground shadow-sm dark:bg-white/10'
                 : 'text-muted-foreground hover:text-foreground',

@@ -41,8 +41,8 @@
   --color-card: var(--card);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-lg: var(--radius); /* 12px */
+  --radius-xl: 1rem; /* 16px: tope para botones e inputs (rango 12–16px) */
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
@@ -50,7 +50,7 @@
 
 /*
  * Paleta Jalio: #ffffff, #000000, #ff6b2c.
- * El naranja lleva texto NEGRO encima (7:1). Con blanco no pasa AA (2.9:1).
+ * Botones naranjas con texto blanco (decisión de marca; 2.9:1, por eso semibold y ≥15px).
  */
 :root {
   --jalio-naranja: #ff6b2c;
@@ -61,7 +61,7 @@
   --popover: rgb(255 255 255 / 0.82);
   --popover-foreground: #000000;
   --primary: var(--jalio-naranja);
-  --primary-foreground: #000000;
+  --primary-foreground: #ffffff;
   --secondary: rgb(0 0 0 / 0.05);
   --secondary-foreground: #000000;
   --muted: rgb(0 0 0 / 0.04);
@@ -105,7 +105,7 @@
   --popover: rgb(28 28 30 / 0.85);
   --popover-foreground: #ffffff;
   --primary: var(--jalio-naranja);
-  --primary-foreground: #000000;
+  --primary-foreground: #ffffff;
   --secondary: rgb(255 255 255 / 0.08);
   --secondary-foreground: #ffffff;
   --muted: rgb(255 255 255 / 0.06);
