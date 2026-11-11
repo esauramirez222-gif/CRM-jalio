@@ -28,9 +28,7 @@ export function TablaClientes({ filas, estados }: { filas: ClienteFila[]; estado
             <TableHead className={TH_FIJO}>Giro</TableHead>
             <TableHead className={TH_FIJO}>Estado</TableHead>
             <TableHead className={TH_FIJO}>Seguimiento</TableHead>
-            <TableHead className={TH_FIJO}>
-              <span className="sr-only">Acciones</span>
-            </TableHead>
+            <TableHead className={`${TH_FIJO} text-right`}>Acciones</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
