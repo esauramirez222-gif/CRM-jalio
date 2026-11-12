@@ -14,11 +14,20 @@ import { claseSelect } from './barra-filtros'
 /** Lo que el formulario usa de un cliente (sirve con filas de la lista o del tablero). */
 type ClienteEditable = Pick<
   ClienteFila,
-  'id' | 'nombre' | 'empresa' | 'celular' | 'correo' | 'giro' | 'estado_id' | 'medio_contacto' | 'contactado_por'
+  | 'id'
+  | 'nombre'
+  | 'empresa'
+  | 'celular'
+  | 'correo'
+  | 'giro'
+  | 'estado_id'
+  | 'medio_contacto'
+  | 'contactado_por'
+  | 'monto_cotizacion'
 >
 
 type Props = {
-  estados: Pick<EstadoResumen, 'id' | 'nombre'>[]
+  estados: Pick<EstadoResumen, 'id' | 'nombre' | 'pide_monto' | 'muestra_suma'>[]
   cliente?: ClienteEditable
 } & (
   | { disparador: React.ReactElement; abierto?: never; onAbiertoCambia?: never }
@@ -34,6 +43,10 @@ export function FormCliente({ estados, cliente, disparador, abierto: abiertoExte
   const [resultado, setResultado] = useState<Resultado | null>(null)
   const [pendiente, iniciar] = useTransition()
   const errores = resultado && !resultado.ok ? (resultado.camposConError ?? {}) : {}
+  // El campo de monto aparece sólo en estados con monto (Cotización y Cerró).
+  const [estadoId, setEstadoId] = useState(cliente?.estado_id ?? estados[0]?.id ?? '')
+  const estadoElegido = estados.find((e) => e.id === estadoId)
+  const conMonto = !!(estadoElegido?.pide_monto || estadoElegido?.muestra_suma)
 
   function cambiarAbierto(v: boolean) {
     setAbierto(v)
@@ -98,7 +111,8 @@ export function FormCliente({ estados, cliente, disparador, abierto: abiertoExte
               id="estado_id"
               name="estado_id"
               className={`${claseSelect} w-full`}
-              defaultValue={cliente?.estado_id ?? estados[0]?.id}
+              value={estadoId}
+              onChange={(e) => setEstadoId(e.target.value)}
             >
               {estados.map((e) => (
                 <option key={e.id} value={e.id}>
@@ -107,6 +121,30 @@ export function FormCliente({ estados, cliente, disparador, abierto: abiertoExte
               ))}
             </select>
           </Campo>
+          {conMonto && (
+            <Campo
+              nombre="monto_cotizacion"
+              etiqueta="Monto de la cotización"
+              error={errores.monto_cotizacion}
+              opcional={!estadoElegido?.pide_monto}
+            >
+              <div className="relative">
+                <span className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-sm text-muted-foreground">
+                  $
+                </span>
+                <Input
+                  id="monto_cotizacion"
+                  name="monto_cotizacion"
+                  inputMode="decimal"
+                  autoComplete="off"
+                  placeholder="15,000"
+                  defaultValue={cliente?.monto_cotizacion != null ? String(Number(cliente.monto_cotizacion)) : ''}
+                  aria-invalid={!!errores.monto_cotizacion}
+                  className="pl-7"
+                />
+              </div>
+            </Campo>
+          )}
           <Campo nombre="medio_contacto" etiqueta="Medio de contacto" error={errores.medio_contacto}>
             <select
               id="medio_contacto"

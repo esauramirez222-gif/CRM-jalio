@@ -7,9 +7,9 @@ export type Database = {
   public: {
     Tables: {
       estados: {
-        Row: { id: string; nombre: string; orden: number; color: string; created_at: string }
-        Insert: { id?: string; nombre: string; orden: number; color?: string; created_at?: string }
-        Update: { id?: string; nombre?: string; orden?: number; color?: string; created_at?: string }
+        Row: { id: string; nombre: string; orden: number; color: string; created_at: string; pide_monto: boolean; muestra_suma: boolean }
+        Insert: { id?: string; nombre: string; orden: number; color?: string; created_at?: string; pide_monto?: boolean; muestra_suma?: boolean }
+        Update: { id?: string; nombre?: string; orden?: number; color?: string; created_at?: string; pide_monto?: boolean; muestra_suma?: boolean }
         Relationships: []
       }
       clientes: {
@@ -23,6 +23,8 @@ export type Database = {
           estado_id: string
           medio_contacto: string
           contactado_por: string
+          fecha_ingreso: string
+          monto_cotizacion: number | null
           created_at: string
           updated_at: string
         }
@@ -36,6 +38,8 @@ export type Database = {
           estado_id: string
           medio_contacto: string
           contactado_por: string
+          fecha_ingreso?: string
+          monto_cotizacion?: number | null
           created_at?: string
           updated_at?: string
         }
@@ -49,6 +53,8 @@ export type Database = {
           estado_id?: string
           medio_contacto?: string
           contactado_por?: string
+          fecha_ingreso?: string
+          monto_cotizacion?: number | null
           created_at?: string
           updated_at?: string
         }

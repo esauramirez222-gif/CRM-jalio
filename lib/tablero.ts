@@ -1,5 +1,12 @@
 /** Lo mínimo que el tablero necesita de un cliente. */
-type ClienteTablero = { id: string; empresa: string; nombre: string; estado_id: string; updated_at: string }
+type ClienteTablero = {
+  id: string
+  empresa: string
+  nombre: string
+  estado_id: string
+  updated_at: string
+  monto_cotizacion?: number | string | null
+}
 
 /**
  * Agrupa los clientes en columnas, una por estado y en el orden de `idsEstados`
@@ -26,7 +33,20 @@ export function filtrarClientes<T extends ClienteTablero>(clientes: T[], q: stri
   return clientes.filter((c) => normalizar(`${c.empresa} ${c.nombre}`).includes(termino))
 }
 
-/** Devuelve una copia con el cliente movido a `estadoId` y marcado como actualizado en `ahora`. */
-export function moverCliente<T extends ClienteTablero>(clientes: T[], id: string, estadoId: string, ahora: string): T[] {
-  return clientes.map((c) => (c.id === id ? { ...c, estado_id: estadoId, updated_at: ahora } : c))
+/**
+ * Devuelve una copia con el cliente movido a `estadoId` y marcado como actualizado en `ahora`.
+ * Si se pasa `monto`, también actualiza el monto de la cotización.
+ */
+export function moverCliente<T extends ClienteTablero>(
+  clientes: T[],
+  id: string,
+  estadoId: string,
+  ahora: string,
+  monto?: number,
+): T[] {
+  return clientes.map((c) =>
+    c.id === id
+      ? { ...c, estado_id: estadoId, updated_at: ahora, ...(monto !== undefined && { monto_cotizacion: monto }) }
+      : c,
+  )
 }

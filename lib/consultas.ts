@@ -5,7 +5,15 @@ import type { Database } from '@/lib/tipos'
 
 type Cliente = SupabaseClient<Database>
 
-export type EstadoResumen = { id: string; nombre: string; color: string; orden: number; total: number }
+export type EstadoResumen = {
+  id: string
+  nombre: string
+  color: string
+  orden: number
+  total: number
+  pide_monto: boolean
+  muestra_suma: boolean
+}
 export type ClienteFila = Database['public']['Tables']['clientes']['Row'] & {
   estado: { id: string; nombre: string; color: string } | null
 }
@@ -46,13 +54,17 @@ export type ClienteTablero = Pick<
   | 'medio_contacto'
   | 'contactado_por'
   | 'updated_at'
+  | 'fecha_ingreso'
+  | 'monto_cotizacion'
 >
 
 /** Todos los clientes para el tablero (sin paginación; pensado para cientos, no decenas de miles). */
 export async function listarParaTablero(supabase: Cliente): Promise<ClienteTablero[]> {
   const { data, error } = await supabase
     .from('clientes')
-    .select('id, empresa, nombre, celular, correo, giro, estado_id, medio_contacto, contactado_por, updated_at')
+    .select(
+      'id, empresa, nombre, celular, correo, giro, estado_id, medio_contacto, contactado_por, updated_at, fecha_ingreso, monto_cotizacion',
+    )
     .order('updated_at', { ascending: false })
     .limit(2000)
   if (error) throw new Error('No se pudieron cargar los clientes')
@@ -62,7 +74,7 @@ export async function listarParaTablero(supabase: Cliente): Promise<ClienteTable
 export async function conteosPorEstado(supabase: Cliente): Promise<EstadoResumen[]> {
   const { data, error } = await supabase
     .from('estados')
-    .select('id, nombre, color, orden, clientes(count)')
+    .select('id, nombre, color, orden, pide_monto, muestra_suma, clientes(count)')
     .order('orden')
   if (error) throw new Error('No se pudieron cargar los estados')
   return (data ?? []).map(({ clientes, ...e }) => ({ ...e, total: clientes[0]?.count ?? 0 }))

@@ -23,7 +23,7 @@ describe('clienteSchema', () => {
   it('acepta un cliente con todos los campos', () => {
     const r = clienteSchema.safeParse(COMPLETO)
     expect(r.success).toBe(true)
-    expect(r.data).toEqual(COMPLETO)
+    expect(r.data).toEqual({ ...COMPLETO, monto_cotizacion: null })
   })
 
   it('rechaza nombre vacío o sólo espacios', () => {
@@ -54,6 +54,20 @@ describe('clienteSchema', () => {
   it('exige elegir medio de contacto y contactado por', () => {
     expect(errorDe(clienteSchema.safeParse({ ...COMPLETO, medio_contacto: '' }), 'medio_contacto')).toBe('Selecciona una opción')
     expect(errorDe(clienteSchema.safeParse({ ...COMPLETO, contactado_por: '' }), 'contactado_por')).toBe('Selecciona una opción')
+  })
+
+  it('monto de cotización: opcional, acepta formato con $ y comas', () => {
+    expect(clienteSchema.safeParse(COMPLETO).data?.monto_cotizacion).toBeNull()
+    expect(clienteSchema.safeParse({ ...COMPLETO, monto_cotizacion: '' }).data?.monto_cotizacion).toBeNull()
+    expect(clienteSchema.safeParse({ ...COMPLETO, monto_cotizacion: '$15,000' }).data?.monto_cotizacion).toBe(15000)
+  })
+
+  it('rechaza montos inválidos', () => {
+    for (const malo of ['abc', '0', '-5']) {
+      expect(errorDe(clienteSchema.safeParse({ ...COMPLETO, monto_cotizacion: malo }), 'monto_cotizacion')).toBe(
+        'Escribe un monto válido, por ejemplo 15000',
+      )
+    }
   })
 
   it('recorta espacios de los textos', () => {

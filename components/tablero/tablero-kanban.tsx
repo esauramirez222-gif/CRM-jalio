@@ -17,6 +17,7 @@ import { useEffect, useMemo, useOptimistic, useState, useSyncExternalStore, useT
 import { createPortal } from 'react-dom'
 import { cambiarEstadoCliente } from '@/app/(app)/clientes/actions'
 import { COLOR_CONTACTADO, CONTACTADO_POR } from '@/lib/constantes'
+import { DialogoMonto } from '@/components/clientes/dialogo-monto'
 import { FormCliente } from '@/components/clientes/form-cliente'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -25,20 +26,22 @@ import { agruparPorEstado, filtrarClientes, moverCliente } from '@/lib/tablero'
 import { ColumnaEstado } from './columna-estado'
 import { ContenidoTarjeta } from './tarjeta-cliente'
 
-type Estado = { id: string; nombre: string; color: string }
+type Estado = { id: string; nombre: string; color: string; pide_monto: boolean; muestra_suma: boolean }
 
 export function TableroKanban({ estados, clientes }: { estados: Estado[]; clientes: ClienteTablero[] }) {
   // La card se mueve al instante; si el guardado falla, React la regresa sola a su columna.
   const [clientesVista, moverOptimista] = useOptimistic(
     clientes,
-    (actuales, m: { id: string; estadoId: string }) =>
-      moverCliente(actuales, m.id, m.estadoId, new Date().toISOString()),
+    (actuales, m: { id: string; estadoId: string; monto?: number }) =>
+      moverCliente(actuales, m.id, m.estadoId, new Date().toISOString(), m.monto),
   )
   const [, iniciar] = useTransition()
   const [q, setQ] = useState('')
   const [activo, setActivo] = useState<ClienteTablero | null>(null)
   const [editando, setEditando] = useState<ClienteTablero | null>(null)
   const [aviso, setAviso] = useState<string | null>(null)
+  // Movimiento en espera de que se capture el monto (al soltar en un estado que lo pide).
+  const [pendiente, setPendiente] = useState<{ cliente: ClienteTablero; estado: Estado } | null>(null)
   // true sólo en el navegador (el portal necesita document.body); false durante el render del servidor.
   const enNavegador = useSyncExternalStore(
     () => () => {},
@@ -83,11 +86,20 @@ export function TableroKanban({ estados, clientes }: { estados: Estado[]; client
     const id = String(active.id)
     const estadoId = String(over.id)
     const cliente = clientesVista.find((c) => c.id === id)
-    if (!cliente || cliente.estado_id === estadoId) return
+    const estado = estados.find((e) => e.id === estadoId)
+    if (!cliente || !estado || cliente.estado_id === estadoId) return
+    // A Cotización (o cualquier estado que pida monto) no se mueve hasta capturar el monto.
+    if (estado.pide_monto) {
+      setPendiente({ cliente, estado })
+      return
+    }
+    mover(cliente, estadoId)
+  }
 
+  function mover(cliente: ClienteTablero, estadoId: string, monto?: number) {
     iniciar(async () => {
-      moverOptimista({ id, estadoId })
-      const r = await cambiarEstadoCliente(id, estadoId)
+      moverOptimista({ id: cliente.id, estadoId, monto })
+      const r = await cambiarEstadoCliente(cliente.id, estadoId, monto)
       if (!r.ok) setAviso(`No se pudo mover «${cliente.empresa}»: ${r.error}`)
     })
   }
@@ -191,6 +203,21 @@ export function TableroKanban({ estados, clientes }: { estados: Estado[]; client
             document.body,
           )}
       </DndContext>
+
+      <DialogoMonto
+        peticion={
+          pendiente && {
+            empresa: pendiente.cliente.empresa,
+            estado: pendiente.estado.nombre,
+            montoActual: pendiente.cliente.monto_cotizacion === null ? null : Number(pendiente.cliente.monto_cotizacion),
+          }
+        }
+        onConfirmar={(monto) => {
+          if (pendiente) mover(pendiente.cliente, pendiente.estado.id, monto)
+          setPendiente(null)
+        }}
+        onCancelar={() => setPendiente(null)}
+      />
 
       {editando && (
         <FormCliente

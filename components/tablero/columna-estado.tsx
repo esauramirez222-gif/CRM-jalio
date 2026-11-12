@@ -2,11 +2,12 @@
 
 import { useDroppable } from '@dnd-kit/core'
 import type { ClienteTablero } from '@/lib/consultas'
+import { formatearMonto, sumarMontos } from '@/lib/montos'
 import { cn } from '@/lib/utils'
 import { TarjetaCliente } from './tarjeta-cliente'
 
 type Props = {
-  estado: { id: string; nombre: string; color: string }
+  estado: { id: string; nombre: string; color: string; muestra_suma: boolean }
   clientes: ClienteTablero[]
   arrastrando: boolean
   onAbrir: (c: ClienteTablero) => void
@@ -24,7 +25,20 @@ export function ColumnaEstado({ estado, clientes, arrastrando, onAbrir }: Props)
       <header className="flex items-center gap-2 px-3.5 pt-3.5 pb-2.5">
         <span className="size-2.5 rounded-xl" style={{ backgroundColor: estado.color }} aria-hidden />
         <h2 className="truncate text-sm font-semibold">{estado.nombre}</h2>
-        <span className="ml-auto rounded-lg bg-foreground/[0.06] px-2 py-0.5 text-xs tabular-nums text-muted-foreground">
+        {estado.muestra_suma && (
+          <span
+            className="ml-auto text-sm font-semibold tabular-nums"
+            title={`Suma de cotizaciones en ${estado.nombre}`}
+          >
+            {formatearMonto(sumarMontos(clientes))}
+          </span>
+        )}
+        <span
+          className={cn(
+            'rounded-lg bg-foreground/[0.06] px-2 py-0.5 text-xs tabular-nums text-muted-foreground',
+            !estado.muestra_suma && 'ml-auto',
+          )}
+        >
           {clientes.length}
         </span>
       </header>

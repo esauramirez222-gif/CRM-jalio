@@ -10,6 +10,7 @@ import {
   type MedioContacto,
 } from '@/lib/constantes'
 import type { ClienteTablero } from '@/lib/consultas'
+import { formatearFecha, formatearMonto } from '@/lib/montos'
 import { cn } from '@/lib/utils'
 
 const ICONO_MEDIO = { llamada: Phone, correo: Mail, redes: MessageCircle } as const
@@ -43,6 +44,14 @@ export function ContenidoTarjeta({ cliente, flotando }: { cliente: ClienteTabler
           <p className="truncate text-sm font-medium leading-tight">{cliente.empresa}</p>
           <p className="truncate text-xs text-muted-foreground">{cliente.nombre}</p>
         </div>
+      </div>
+      <div className="flex items-center justify-between gap-2 text-xs text-muted-foreground">
+        <span title="Fecha de ingreso">{formatearFecha(cliente.fecha_ingreso)}</span>
+        {cliente.monto_cotizacion !== null && (
+          <span className="font-semibold tabular-nums text-foreground" title="Monto de la cotización">
+            {formatearMonto(Number(cliente.monto_cotizacion))}
+          </span>
+        )}
       </div>
       <div className="flex items-center justify-between gap-2 text-xs">
         <span className="truncate rounded-lg bg-foreground/[0.05] px-2 py-0.5 text-muted-foreground">{cliente.giro}</span>

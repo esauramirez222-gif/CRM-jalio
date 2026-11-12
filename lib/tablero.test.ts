@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { agruparPorEstado, filtrarClientes, moverCliente } from './tablero'
 
-type C = { id: string; empresa: string; nombre: string; estado_id: string; updated_at: string }
+type C = { id: string; empresa: string; nombre: string; estado_id: string; updated_at: string; monto_cotizacion?: number | null }
 
 const clientes: C[] = [
   { id: '1', empresa: 'Fotomex', nombre: 'Ricardo Lara', estado_id: 'a', updated_at: '2026-11-10T10:00:00Z' },
@@ -49,6 +49,13 @@ describe('moverCliente', () => {
     expect(movido.estado_id).toBe('b')
     expect(movido.updated_at).toBe('2026-11-12T00:00:00Z')
     expect(agruparPorEstado(r, ['a', 'b']).get('b')!.map((c) => c.id)).toEqual(['1', '3'])
+  })
+
+  it('si se indica, guarda el monto de la cotización; si no, conserva el que tenía', () => {
+    const conMonto = moverCliente(clientes, '1', 'b', 'x', 15000).find((c) => c.id === '1')!
+    expect(conMonto.monto_cotizacion).toBe(15000)
+    const previo = [{ ...clientes[0], monto_cotizacion: 9000 }]
+    expect(moverCliente(previo, '1', 'b', 'x')[0].monto_cotizacion).toBe(9000)
   })
 
   it('no modifica el arreglo original', () => {

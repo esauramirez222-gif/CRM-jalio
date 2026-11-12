@@ -2,6 +2,7 @@ import { Mail, Pencil, Phone } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import type { ClienteFila, EstadoResumen } from '@/lib/consultas'
+import { formatearFecha } from '@/lib/montos'
 import { EliminarCliente } from './eliminar-cliente'
 import { ETIQUETA_MEDIO, type MedioContacto } from '@/lib/constantes'
 import { FormCliente } from './form-cliente'
@@ -26,6 +27,7 @@ export function TablaClientes({ filas, estados }: { filas: ClienteFila[]; estado
             </TableHead>
             <TableHead className={TH_FIJO}>Contacto</TableHead>
             <TableHead className={TH_FIJO}>Giro</TableHead>
+            <TableHead className={TH_FIJO}>Ingreso</TableHead>
             <TableHead className={TH_FIJO}>Estado</TableHead>
             <TableHead className={TH_FIJO}>Seguimiento</TableHead>
             <TableHead className={`${TH_FIJO} text-right`}>Acciones</TableHead>
@@ -66,12 +68,16 @@ export function TablaClientes({ filas, estados }: { filas: ClienteFila[]; estado
                 </div>
               </TableCell>
               <TableCell className="text-muted-foreground">{c.giro}</TableCell>
+              <TableCell className="text-[13px] text-muted-foreground tabular-nums">
+                {formatearFecha(c.fecha_ingreso)}
+              </TableCell>
               <TableCell>
                 <SelectorEstado
-                  key={c.estado_id}
+                  key={`${c.estado_id}-${c.monto_cotizacion}`}
                   clienteId={c.id}
                   nombreCliente={c.empresa}
                   estadoId={c.estado_id}
+                  monto={c.monto_cotizacion}
                   estados={estados}
                 />
               </TableCell>

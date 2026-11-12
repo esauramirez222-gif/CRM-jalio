@@ -9,7 +9,13 @@ export default async function TableroPage() {
 
   return (
     <TableroKanban
-      estados={estados.map(({ id, nombre, color }) => ({ id, nombre, color }))}
+      estados={estados.map(({ id, nombre, color, pide_monto, muestra_suma }) => ({
+        id,
+        nombre,
+        color,
+        pide_monto,
+        muestra_suma,
+      }))}
       clientes={clientes}
     />
   )
