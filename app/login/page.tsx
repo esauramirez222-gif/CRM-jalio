@@ -1,7 +1,7 @@
 'use client'
 
-import { Loader2 } from 'lucide-react'
-import { useActionState } from 'react'
+import { Eye, EyeOff, Loader2 } from 'lucide-react'
+import { useActionState, useState } from 'react'
 import { LogoJalio } from '@/components/logo-jalio'
 import { BotonTema } from '@/components/tema'
 import { Button } from '@/components/ui/button'
@@ -11,6 +11,7 @@ import { iniciarSesion } from './actions'
 
 export default function LoginPage() {
   const [estado, accion, enviando] = useActionState(iniciarSesion, null)
+  const [verContrasena, setVerContrasena] = useState(false)
 
   return (
     <main className="relative flex flex-1 items-center justify-center p-4">
@@ -34,7 +35,26 @@ export default function LoginPage() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Contraseña</Label>
-            <Input id="password" name="password" type="password" autoComplete="current-password" required />
+            <div className="relative">
+              <Input
+                id="password"
+                name="password"
+                type={verContrasena ? 'text' : 'password'}
+                autoComplete="current-password"
+                className="pr-11"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setVerContrasena((v) => !v)}
+                aria-label={verContrasena ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                aria-pressed={verContrasena}
+                title={verContrasena ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                className="absolute top-1/2 right-1.5 flex size-8 -translate-y-1/2 items-center justify-center rounded-lg text-muted-foreground transition-colors duration-150 outline-none hover:bg-foreground/[0.06] hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                {verContrasena ? <EyeOff className="size-4" aria-hidden /> : <Eye className="size-4" aria-hidden />}
+              </button>
+            </div>
           </div>
           {estado && !estado.ok && (
             <p role="alert" className="rounded-xl bg-destructive/10 px-3 py-2 text-sm text-destructive">
