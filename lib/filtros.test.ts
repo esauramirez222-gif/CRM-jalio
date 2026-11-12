@@ -51,18 +51,18 @@ describe('escaparBusqueda', () => {
 })
 
 describe('construirQuery', () => {
-  const base = { estado: UUID, q: 'ana', por: 'Monica' as const, pagina: 3 }
+  const base = { estado: UUID, q: 'ana', por: 'Mónica' as const, pagina: 3 }
 
   it('omite valores por defecto', () => {
     expect(construirQuery({ estado: null, q: '', por: null, pagina: 1 }, {})).toBe('')
   })
 
   it('al cambiar un filtro vuelve a la página 1', () => {
-    expect(construirQuery(base, { estado: null })).toBe('?q=ana&por=Monica')
+    expect(construirQuery(base, { estado: null })).toBe('?q=ana&por=M%C3%B3nica')
   })
 
   it('al cambiar sólo la página conserva los filtros', () => {
-    expect(construirQuery(base, { pagina: 4 })).toBe(`?estado=${UUID}&q=ana&por=Monica&pagina=4`)
+    expect(construirQuery(base, { pagina: 4 })).toBe(`?estado=${UUID}&q=ana&por=M%C3%B3nica&pagina=4`)
   })
 })
 
@@ -78,5 +78,11 @@ describe('ultimaPagina', () => {
     expect(ultimaPagina(0)).toBe(1)
     expect(ultimaPagina(50)).toBe(1)
     expect(ultimaPagina(51)).toBe(2)
+  })
+})
+
+describe('filtro por Mónica', () => {
+  it('reconoce "Mónica" con acento al leer la URL', () => {
+    expect(parseFiltros({ por: 'Mónica' }).por).toBe('Mónica')
   })
 })

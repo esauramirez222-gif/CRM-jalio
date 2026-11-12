@@ -47,7 +47,7 @@ La lista es fija. Hay que cambiarla en dos lugares:
 ```sql
 alter table public.clientes drop constraint clientes_contactado_por_check;
 alter table public.clientes add constraint clientes_contactado_por_check
-  check (contactado_por in ('Monica', 'Jaziel', 'Leonardo', 'Todos', 'NuevaPersona'));
+  check (contactado_por in ('Mónica', 'Jaziel', 'Leonardo', 'Todos', 'NuevaPersona'));
 ```
 
 ## Despliegue (Netlify)

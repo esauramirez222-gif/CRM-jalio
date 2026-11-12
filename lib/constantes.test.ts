@@ -15,7 +15,7 @@ describe('constantes', () => {
   })
 
   it('define quién puede haber contactado', () => {
-    expect(CONTACTADO_POR).toEqual(['Monica', 'Jaziel', 'Leonardo', 'Todos'])
+    expect(CONTACTADO_POR).toEqual(['Mónica', 'Jaziel', 'Leonardo', 'Todos'])
   })
 
   it('tiene etiqueta legible para cada medio de contacto', () => {
@@ -32,7 +32,7 @@ describe('constantes', () => {
 describe('colores de card por persona', () => {
   it('asigna el color de cada persona que contacta', () => {
     expect(COLOR_CONTACTADO).toEqual({
-      Monica: '#FFE7EE',
+      Mónica: '#FFE7EE',
       Leonardo: '#EDE8D0',
       Jaziel: '#C8EFE8',
       Todos: '#FACD9B',

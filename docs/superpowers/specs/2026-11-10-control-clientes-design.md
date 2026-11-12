@@ -60,7 +60,7 @@ Datos iniciales (seed), en este orden: `StandBy` (1), `Contacto` (2), `Catálogo
 | giro | text | NOT NULL, no vacío |
 | estado_id | uuid | NOT NULL, FK → `estados.id` **ON DELETE RESTRICT** |
 | medio_contacto | text | NOT NULL, CHECK en (`'redes'`, `'llamada'`, `'correo'`) |
-| contactado_por | text | NOT NULL, CHECK en (`'Monica'`, `'Jaziel'`, `'Leonardo'`, `'Todos'`) |
+| contactado_por | text | NOT NULL, CHECK en (`'Mónica'`, `'Jaziel'`, `'Leonardo'`, `'Todos'`) |
 | created_at | timestamptz | NOT NULL, default `now()` |
 | updated_at | timestamptz | NOT NULL, default `now()`, actualizado por trigger |
 

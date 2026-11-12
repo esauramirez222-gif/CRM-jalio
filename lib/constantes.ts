@@ -9,12 +9,12 @@ export const ETIQUETA_MEDIO: Record<MedioContacto, string> = {
   correo: 'Correo',
 }
 
-export const CONTACTADO_POR = ['Monica', 'Jaziel', 'Leonardo', 'Todos'] as const
+export const CONTACTADO_POR = ['Mónica', 'Jaziel', 'Leonardo', 'Todos'] as const
 export type ContactadoPor = (typeof CONTACTADO_POR)[number]
 
 /** Color del cuadro con la inicial en las cards del tablero, según quién contactó al cliente. */
 export const COLOR_CONTACTADO: Record<ContactadoPor, string> = {
-  Monica: '#FFE7EE',
+  Mónica: '#FFE7EE',
   Leonardo: '#EDE8D0',
   Jaziel: '#C8EFE8',
   Todos: '#FACD9B',
