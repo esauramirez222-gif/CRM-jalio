@@ -9,6 +9,9 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { iniciarSesion } from './actions'
 
+/** Cuenta compartida con la que entra todo el equipo (el campo sigue siendo editable). */
+const CORREO_EQUIPO = 'digital.jalio.dev@gmail.com'
+
 export default function LoginPage() {
   const [estado, accion, enviando] = useActionState(iniciarSesion, null)
   const [verContrasena, setVerContrasena] = useState(false)
@@ -31,7 +34,15 @@ export default function LoginPage() {
         <form action={accion} className="glass space-y-5 rounded-3xl p-6 sm:p-8">
           <div className="space-y-2">
             <Label htmlFor="email">Correo</Label>
-            <Input id="email" name="email" type="email" autoComplete="email" placeholder="tu@correo.com" required />
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              placeholder="tu@correo.com"
+              defaultValue={CORREO_EQUIPO}
+              required
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Contraseña</Label>
@@ -41,6 +52,7 @@ export default function LoginPage() {
                 name="password"
                 type={verContrasena ? 'text' : 'password'}
                 autoComplete="current-password"
+                autoFocus
                 className="pr-11"
                 required
               />
