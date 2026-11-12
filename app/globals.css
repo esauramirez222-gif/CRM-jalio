@@ -85,6 +85,8 @@
   --celda-fija: rgb(252 252 253 / 0.97);
   /* Fondo sólido de las opciones de <select> (la lista nativa no admite translúcidos). */
   --opcion-fondo: #ffffff;
+  /* Flecha propia de los <select> (chevron de lucide), separada del borde. */
+  --flecha-select: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235c5c63' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
@@ -129,6 +131,7 @@
   --ambiente-2: rgb(255 107 44 / 0.06);
   --celda-fija: rgb(30 30 32 / 0.97);
   --opcion-fondo: #1c1c1e;
+  --flecha-select: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);

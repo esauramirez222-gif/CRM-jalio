@@ -8,7 +8,7 @@ import { CONTACTADO_POR, type ContactadoPor } from '@/lib/constantes'
 import { construirQuery, type Filtros } from '@/lib/filtros'
 
 export const claseSelect =
-  'h-10 cursor-pointer rounded-xl border border-input bg-white/70 px-3 text-sm shadow-xs outline-none transition-[border-color,box-shadow] duration-200 hover:border-foreground/20 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/40 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:bg-white/5'
+  'h-10 cursor-pointer appearance-none rounded-xl border border-input bg-white/70 bg-(image:--flecha-select) bg-size-[1rem] bg-position-[right_0.75rem_center] bg-no-repeat pr-9 pl-3 text-sm shadow-xs outline-none transition-[border-color,box-shadow] duration-200 hover:border-foreground/20 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/40 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:bg-white/5'
 
 export function BarraFiltros({ filtros }: { filtros: Filtros }) {
   const router = useRouter()
