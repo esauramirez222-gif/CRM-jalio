@@ -12,12 +12,12 @@ export const ETIQUETA_MEDIO: Record<MedioContacto, string> = {
 export const CONTACTADO_POR = ['Monica', 'Jaziel', 'Leonardo', 'Todos'] as const
 export type ContactadoPor = (typeof CONTACTADO_POR)[number]
 
-/** Color de las cards del tablero según quién contactó al cliente. */
+/** Color del cuadro con la inicial en las cards del tablero, según quién contactó al cliente. */
 export const COLOR_CONTACTADO: Record<ContactadoPor, string> = {
   Monica: '#FFE7EE',
   Leonardo: '#EDE8D0',
-  Jaziel: '#27F5B7',
-  Todos: '#8A0707',
+  Jaziel: '#C8EFE8',
+  Todos: '#C25F5F',
 }
 
 /** Luminancia relativa WCAG de un color hex (#rrggbb). */

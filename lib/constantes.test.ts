@@ -34,8 +34,8 @@ describe('colores de card por persona', () => {
     expect(COLOR_CONTACTADO).toEqual({
       Monica: '#FFE7EE',
       Leonardo: '#EDE8D0',
-      Jaziel: '#27F5B7',
-      Todos: '#8A0707',
+      Jaziel: '#C8EFE8',
+      Todos: '#C25F5F',
     })
     for (const p of CONTACTADO_POR) expect(COLOR_CONTACTADO[p]).toMatch(/^#[0-9A-F]{6}$/i)
   })

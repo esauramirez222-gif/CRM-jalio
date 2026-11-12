@@ -18,40 +18,35 @@ const ICONO_MEDIO = { llamada: Phone, correo: Mail, redes: MessageCircle } as co
 export function ContenidoTarjeta({ cliente, flotando }: { cliente: ClienteTablero; flotando?: boolean }) {
   const medio = cliente.medio_contacto as MedioContacto
   const Icono = ICONO_MEDIO[medio] ?? MessageCircle
-  // Color de la card según quién contactó; el texto (negro o blanco) se elige por contraste.
-  const fondo = COLOR_CONTACTADO[cliente.contactado_por as ContactadoPor]
-  const texto = fondo ? colorTextoSobre(fondo) : undefined
+  // Sólo el cuadro de la inicial lleva el color de quien contactó; la letra (negra o blanca) se elige por contraste.
+  const colorCuadro = COLOR_CONTACTADO[cliente.contactado_por as ContactadoPor]
 
   return (
     <div
-      style={fondo ? { backgroundColor: fondo, color: texto } : undefined}
       className={cn(
-        'space-y-3 rounded-xl p-3.5 text-left shadow-sm ring-1 ring-black/5 dark:ring-white/10',
-        !fondo && 'glass',
-        flotando && 'rotate-[1.5deg] shadow-2xl ring-2 ring-primary/50',
+        'glass space-y-3 rounded-xl p-3.5 text-left',
+        flotando && 'rotate-[1.5deg] shadow-2xl ring-2 ring-primary/40',
       )}
     >
       <div className="flex items-start gap-2.5">
         <span
           aria-hidden
-          className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-current/10 text-xs font-semibold"
+          className={cn(
+            'flex size-8 shrink-0 items-center justify-center rounded-xl text-xs font-semibold',
+            colorCuadro ? 'ring-1 ring-black/5' : 'bg-accent',
+          )}
+          style={colorCuadro ? { backgroundColor: colorCuadro, color: colorTextoSobre(colorCuadro) } : undefined}
         >
-          <span className={fondo ? undefined : 'text-foreground'} style={fondo ? { color: texto } : undefined}>
-            {cliente.empresa.charAt(0).toUpperCase()}
-          </span>
+          {cliente.empresa.charAt(0).toUpperCase()}
         </span>
         <div className="min-w-0">
           <p className="truncate text-sm font-medium leading-tight">{cliente.empresa}</p>
-          <p className="truncate text-xs opacity-75">{cliente.nombre}</p>
+          <p className="truncate text-xs text-muted-foreground">{cliente.nombre}</p>
         </div>
       </div>
       <div className="flex items-center justify-between gap-2 text-xs">
-        <span className="truncate rounded-lg bg-current/10 px-2 py-0.5">
-          <span className="opacity-80" style={fondo ? { color: texto } : undefined}>
-            {cliente.giro}
-          </span>
-        </span>
-        <span className="flex shrink-0 items-center gap-1 opacity-80" title={`Contactado por ${cliente.contactado_por} vía ${ETIQUETA_MEDIO[medio]?.toLowerCase() ?? '—'}`}>
+        <span className="truncate rounded-lg bg-foreground/[0.05] px-2 py-0.5 text-muted-foreground">{cliente.giro}</span>
+        <span className="flex shrink-0 items-center gap-1 text-muted-foreground" title={`Contactado por ${cliente.contactado_por} vía ${ETIQUETA_MEDIO[medio]?.toLowerCase() ?? '—'}`}>
           <Icono className="size-3.5" aria-hidden />
           {cliente.contactado_por}
         </span>
