@@ -83,6 +83,8 @@
   --ambiente-2: rgb(255 107 44 / 0.08);
   /* Celdas fijas de la tabla (encabezado y primera columna): casi opacas + desenfoque. */
   --celda-fija: rgb(252 252 253 / 0.97);
+  /* Fondo sólido de las opciones de <select> (la lista nativa no admite translúcidos). */
+  --opcion-fondo: #ffffff;
 
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
@@ -126,6 +128,7 @@
   --ambiente-1: rgb(255 107 44 / 0.14);
   --ambiente-2: rgb(255 107 44 / 0.06);
   --celda-fija: rgb(30 30 32 / 0.97);
+  --opcion-fondo: #1c1c1e;
 
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
@@ -175,6 +178,13 @@
       radial-gradient(60rem 40rem at 0% -10%, var(--ambiente-1), transparent 60%),
       radial-gradient(50rem 36rem at 110% 110%, var(--ambiente-2), transparent 60%);
     background-attachment: fixed;
+  }
+  /* Las opciones de los <select> heredan el texto del tema pero el navegador las pinta
+     sobre su propio fondo: se les da uno sólido para que se lean en claro y en oscuro. */
+  select option,
+  select optgroup {
+    background-color: var(--opcion-fondo);
+    color: var(--foreground);
   }
   ::selection {
     background: rgb(255 107 44 / 0.3);
