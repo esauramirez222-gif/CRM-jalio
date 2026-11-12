@@ -13,7 +13,8 @@ import {
   type DragStartEvent,
 } from '@dnd-kit/core'
 import { Plus, Search, X } from 'lucide-react'
-import { useEffect, useMemo, useOptimistic, useState, useTransition } from 'react'
+import { useEffect, useMemo, useOptimistic, useState, useSyncExternalStore, useTransition } from 'react'
+import { createPortal } from 'react-dom'
 import { cambiarEstadoCliente } from '@/app/(app)/clientes/actions'
 import { FormCliente } from '@/components/clientes/form-cliente'
 import { Button } from '@/components/ui/button'
@@ -37,6 +38,12 @@ export function TableroKanban({ estados, clientes }: { estados: Estado[]; client
   const [activo, setActivo] = useState<ClienteTablero | null>(null)
   const [editando, setEditando] = useState<ClienteTablero | null>(null)
   const [aviso, setAviso] = useState<string | null>(null)
+  // true sólo en el navegador (el portal necesita document.body); false durante el render del servidor.
+  const enNavegador = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  )
 
   useEffect(() => {
     if (!aviso) return
@@ -157,13 +164,19 @@ export function TableroKanban({ estados, clientes }: { estados: Estado[]; client
             />
           ))}
         </div>
-        <DragOverlay dropAnimation={{ duration: 180, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }}>
-          {activo && (
-            <div className="w-[17rem] cursor-grabbing">
-              <ContenidoTarjeta cliente={activo} flotando />
-            </div>
+        {/* La tarjeta flotante va en <body>: si quedara dentro de un contenedor con transform,
+            su posición fixed se calcularía desde ahí y aparecería desplazada del cursor. */}
+        {enNavegador &&
+          createPortal(
+            <DragOverlay dropAnimation={{ duration: 180, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }}>
+              {activo && (
+                <div className="w-[17rem] cursor-grabbing">
+                  <ContenidoTarjeta cliente={activo} flotando />
+                </div>
+              )}
+            </DragOverlay>,
+            document.body,
           )}
-        </DragOverlay>
       </DndContext>
 
       {editando && (

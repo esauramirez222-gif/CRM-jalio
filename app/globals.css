@@ -159,7 +159,9 @@
   }
 }
 @utility animate-entrada {
-  animation: entrada 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  /* backwards (no both/forwards): al terminar no deja transform aplicado, que convertiría
+     al contenedor en referencia de los position:fixed (p. ej. la tarjeta que se arrastra). */
+  animation: entrada 320ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
 @layer base {
