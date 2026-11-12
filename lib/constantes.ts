@@ -17,7 +17,7 @@ export const COLOR_CONTACTADO: Record<ContactadoPor, string> = {
   Monica: '#FFE7EE',
   Leonardo: '#EDE8D0',
   Jaziel: '#C8EFE8',
-  Todos: '#C25F5F',
+  Todos: '#FACD9B',
 }
 
 /** Luminancia relativa WCAG de un color hex (#rrggbb). */
