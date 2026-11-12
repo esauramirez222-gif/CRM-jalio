@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CRM-Jalio · Clientes",
+  title: "CRM jalio · Clientes",
   description: "Control de clientes por estado",
 };
 

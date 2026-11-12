@@ -26,7 +26,7 @@ export default function LoginPage() {
         <div className="mb-8 flex flex-col items-center gap-4 text-center">
           <LogoJalio tamano={64} />
           <div className="space-y-1.5">
-            <h1 className="text-2xl font-semibold tracking-tight">Bienvenido a CRM-Jalio</h1>
+            <h1 className="text-2xl font-semibold tracking-tight">Bienvenido a CRM jalio</h1>
             <p className="text-sm text-muted-foreground">Inicia sesión para ver a tus clientes.</p>
           </div>
         </div>
