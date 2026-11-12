@@ -12,6 +12,31 @@ export const ETIQUETA_MEDIO: Record<MedioContacto, string> = {
 export const CONTACTADO_POR = ['Monica', 'Jaziel', 'Leonardo', 'Todos'] as const
 export type ContactadoPor = (typeof CONTACTADO_POR)[number]
 
+/** Color de las cards del tablero según quién contactó al cliente. */
+export const COLOR_CONTACTADO: Record<ContactadoPor, string> = {
+  Monica: '#FFE7EE',
+  Leonardo: '#EDE8D0',
+  Jaziel: '#27F5B7',
+  Todos: '#8A0707',
+}
+
+/** Luminancia relativa WCAG de un color hex (#rrggbb). */
+function luminancia(hex: string): number {
+  const canal = (i: number) => {
+    const c = parseInt(hex.slice(i, i + 2), 16) / 255
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
+  }
+  return 0.2126 * canal(1) + 0.7152 * canal(3) + 0.0722 * canal(5)
+}
+
+/** Negro o blanco: el que tenga más contraste sobre `fondo`. */
+export function colorTextoSobre(fondo: string): '#000000' | '#ffffff' {
+  const l = luminancia(fondo)
+  const contrasteNegro = (l + 0.05) / 0.05
+  const contrasteBlanco = 1.05 / (l + 0.05)
+  return contrasteNegro >= contrasteBlanco ? '#000000' : '#ffffff'
+}
+
 export const TAM_PAGINA = 50
 export const COLOR_DEFAULT = '#64748b'
 

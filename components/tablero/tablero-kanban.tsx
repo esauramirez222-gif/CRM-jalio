@@ -16,6 +16,7 @@ import { Plus, Search, X } from 'lucide-react'
 import { useEffect, useMemo, useOptimistic, useState, useSyncExternalStore, useTransition } from 'react'
 import { createPortal } from 'react-dom'
 import { cambiarEstadoCliente } from '@/app/(app)/clientes/actions'
+import { COLOR_CONTACTADO, CONTACTADO_POR } from '@/lib/constantes'
 import { FormCliente } from '@/components/clientes/form-cliente'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -97,6 +98,18 @@ export function TableroKanban({ estados, clientes }: { estados: Estado[]; client
         <div className="space-y-1">
           <h1 className="text-3xl font-semibold tracking-tight">Tablero</h1>
           <p className="text-sm text-muted-foreground">Arrastra una tarjeta para cambiar al cliente de etapa.</p>
+          <ul aria-label="Color de las tarjetas según quién contactó" className="flex flex-wrap gap-x-4 gap-y-1 pt-1.5">
+            {CONTACTADO_POR.map((p) => (
+              <li key={p} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                <span
+                  aria-hidden
+                  className="size-3 rounded-md ring-1 ring-black/10 dark:ring-white/20"
+                  style={{ backgroundColor: COLOR_CONTACTADO[p] }}
+                />
+                {p}
+              </li>
+            ))}
+          </ul>
         </div>
         <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto">
           <div className="relative w-full sm:w-64">
