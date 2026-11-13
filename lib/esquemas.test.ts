@@ -23,7 +23,7 @@ describe('clienteSchema', () => {
   it('acepta un cliente con todos los campos', () => {
     const r = clienteSchema.safeParse(COMPLETO)
     expect(r.success).toBe(true)
-    expect(r.data).toEqual({ ...COMPLETO, monto_cotizacion: null })
+    expect(r.data).toEqual({ ...COMPLETO, monto_cotizacion: null, producto: null })
   })
 
   it('rechaza nombre vacío o sólo espacios', () => {
@@ -68,6 +68,13 @@ describe('clienteSchema', () => {
         'Escribe un monto válido, por ejemplo 15000',
       )
     }
+  })
+
+  it('producto: opcional, sólo de la lista', () => {
+    expect(clienteSchema.safeParse(COMPLETO).data?.producto).toBeNull()
+    expect(clienteSchema.safeParse({ ...COMPLETO, producto: '' }).data?.producto).toBeNull()
+    expect(clienteSchema.safeParse({ ...COMPLETO, producto: 'Tienda en línea' }).data?.producto).toBe('Tienda en línea')
+    expect(errorDe(clienteSchema.safeParse({ ...COMPLETO, producto: 'Otro' }), 'producto')).toBe('Selecciona una opción')
   })
 
   it('recorta espacios de los textos', () => {

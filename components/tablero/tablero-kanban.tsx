@@ -22,7 +22,7 @@ import { FormCliente } from '@/components/clientes/form-cliente'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import type { ClienteTablero } from '@/lib/consultas'
-import { agruparPorEstado, filtrarClientes, moverCliente } from '@/lib/tablero'
+import { agruparPorEstado, type DatosCotizacion, filtrarClientes, moverCliente } from '@/lib/tablero'
 import { ColumnaEstado } from './columna-estado'
 import { ContenidoTarjeta } from './tarjeta-cliente'
 
@@ -32,15 +32,15 @@ export function TableroKanban({ estados, clientes }: { estados: Estado[]; client
   // La card se mueve al instante; si el guardado falla, React la regresa sola a su columna.
   const [clientesVista, moverOptimista] = useOptimistic(
     clientes,
-    (actuales, m: { id: string; estadoId: string; monto?: number }) =>
-      moverCliente(actuales, m.id, m.estadoId, new Date().toISOString(), m.monto),
+    (actuales, m: { id: string; estadoId: string; datos?: DatosCotizacion }) =>
+      moverCliente(actuales, m.id, m.estadoId, new Date().toISOString(), m.datos),
   )
   const [, iniciar] = useTransition()
   const [q, setQ] = useState('')
   const [activo, setActivo] = useState<ClienteTablero | null>(null)
   const [editando, setEditando] = useState<ClienteTablero | null>(null)
   const [aviso, setAviso] = useState<string | null>(null)
-  // Movimiento en espera de que se capture el monto (al soltar en un estado que lo pide).
+  // Movimiento en espera de capturar producto y monto (al soltar en un estado que los pide).
   const [pendiente, setPendiente] = useState<{ cliente: ClienteTablero; estado: Estado } | null>(null)
   // true sólo en el navegador (el portal necesita document.body); false durante el render del servidor.
   const enNavegador = useSyncExternalStore(
@@ -96,10 +96,10 @@ export function TableroKanban({ estados, clientes }: { estados: Estado[]; client
     mover(cliente, estadoId)
   }
 
-  function mover(cliente: ClienteTablero, estadoId: string, monto?: number) {
+  function mover(cliente: ClienteTablero, estadoId: string, datos?: DatosCotizacion) {
     iniciar(async () => {
-      moverOptimista({ id: cliente.id, estadoId, monto })
-      const r = await cambiarEstadoCliente(cliente.id, estadoId, monto)
+      moverOptimista({ id: cliente.id, estadoId, datos })
+      const r = await cambiarEstadoCliente(cliente.id, estadoId, datos)
       if (!r.ok) setAviso(`No se pudo mover «${cliente.empresa}»: ${r.error}`)
     })
   }
@@ -210,10 +210,11 @@ export function TableroKanban({ estados, clientes }: { estados: Estado[]; client
             empresa: pendiente.cliente.empresa,
             estado: pendiente.estado.nombre,
             montoActual: pendiente.cliente.monto_cotizacion === null ? null : Number(pendiente.cliente.monto_cotizacion),
+            productoActual: pendiente.cliente.producto,
           }
         }
-        onConfirmar={(monto) => {
-          if (pendiente) mover(pendiente.cliente, pendiente.estado.id, monto)
+        onConfirmar={(datos) => {
+          if (pendiente) mover(pendiente.cliente, pendiente.estado.id, datos)
           setPendiente(null)
         }}
         onCancelar={() => setPendiente(null)}

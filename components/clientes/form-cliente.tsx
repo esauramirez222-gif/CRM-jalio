@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
-import { CONTACTADO_POR, ETIQUETA_MEDIO, MEDIOS_CONTACTO } from '@/lib/constantes'
+import { CONTACTADO_POR, ETIQUETA_MEDIO, MEDIOS_CONTACTO, PRODUCTOS } from '@/lib/constantes'
 import type { ClienteFila, EstadoResumen } from '@/lib/consultas'
 import type { Resultado } from '@/lib/resultado'
 import { claseSelect } from './barra-filtros'
@@ -24,6 +24,7 @@ type ClienteEditable = Pick<
   | 'medio_contacto'
   | 'contactado_por'
   | 'monto_cotizacion'
+  | 'producto'
 >
 
 type Props = {
@@ -121,6 +122,24 @@ export function FormCliente({ estados, cliente, disparador, abierto: abiertoExte
               ))}
             </select>
           </Campo>
+          {conMonto && (
+            <Campo nombre="producto" etiqueta="Producto" error={errores.producto} opcional={!estadoElegido?.pide_monto}>
+              <select
+                id="producto"
+                name="producto"
+                className={`${claseSelect} w-full`}
+                defaultValue={cliente?.producto ?? ''}
+                aria-invalid={!!errores.producto}
+              >
+                <option value="">Selecciona…</option>
+                {PRODUCTOS.map((p) => (
+                  <option key={p} value={p}>
+                    {p}
+                  </option>
+                ))}
+              </select>
+            </Campo>
+          )}
           {conMonto && (
             <Campo
               nombre="monto_cotizacion"

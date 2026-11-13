@@ -25,6 +25,7 @@ export type Database = {
           contactado_por: string
           fecha_ingreso: string
           monto_cotizacion: number | null
+          producto: string | null
           created_at: string
           updated_at: string
         }
@@ -40,6 +41,7 @@ export type Database = {
           contactado_por: string
           fecha_ingreso?: string
           monto_cotizacion?: number | null
+          producto?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -55,6 +57,7 @@ export type Database = {
           contactado_por?: string
           fecha_ingreso?: string
           monto_cotizacion?: number | null
+          producto?: string | null
           created_at?: string
           updated_at?: string
         }

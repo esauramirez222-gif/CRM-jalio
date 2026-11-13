@@ -46,10 +46,18 @@ export function ContenidoTarjeta({ cliente, flotando }: { cliente: ClienteTabler
         </div>
       </div>
       <div className="flex items-center justify-between gap-2 text-xs text-muted-foreground">
-        <span title="Fecha de ingreso">{formatearFecha(cliente.fecha_ingreso)}</span>
-        {cliente.monto_cotizacion !== null && (
-          <span className="font-semibold tabular-nums text-foreground" title="Monto de la cotización">
-            {formatearMonto(Number(cliente.monto_cotizacion))}
+        <span className="shrink-0" title="Fecha de ingreso">
+          {formatearFecha(cliente.fecha_ingreso)}
+        </span>
+        {(cliente.producto || cliente.monto_cotizacion !== null) && (
+          <span className="min-w-0 truncate text-right" title="Producto y monto de la cotización">
+            {cliente.producto}
+            {cliente.producto && cliente.monto_cotizacion !== null && ' · '}
+            {cliente.monto_cotizacion !== null && (
+              <span className="font-semibold tabular-nums text-foreground">
+                {formatearMonto(Number(cliente.monto_cotizacion))}
+              </span>
+            )}
           </span>
         )}
       </div>

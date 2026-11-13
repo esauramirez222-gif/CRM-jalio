@@ -56,6 +56,7 @@ export type ClienteTablero = Pick<
   | 'updated_at'
   | 'fecha_ingreso'
   | 'monto_cotizacion'
+  | 'producto'
 >
 
 /** Todos los clientes para el tablero (sin paginación; pensado para cientos, no decenas de miles). */
@@ -63,7 +64,7 @@ export async function listarParaTablero(supabase: Cliente): Promise<ClienteTable
   const { data, error } = await supabase
     .from('clientes')
     .select(
-      'id, empresa, nombre, celular, correo, giro, estado_id, medio_contacto, contactado_por, updated_at, fecha_ingreso, monto_cotizacion',
+      'id, empresa, nombre, celular, correo, giro, estado_id, medio_contacto, contactado_por, updated_at, fecha_ingreso, monto_cotizacion, producto',
     )
     .order('updated_at', { ascending: false })
     .limit(2000)

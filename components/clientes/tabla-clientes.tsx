@@ -73,11 +73,12 @@ export function TablaClientes({ filas, estados }: { filas: ClienteFila[]; estado
               </TableCell>
               <TableCell>
                 <SelectorEstado
-                  key={`${c.estado_id}-${c.monto_cotizacion}`}
+                  key={`${c.estado_id}-${c.monto_cotizacion}-${c.producto}`}
                   clienteId={c.id}
                   nombreCliente={c.empresa}
                   estadoId={c.estado_id}
                   monto={c.monto_cotizacion}
+                  producto={c.producto}
                   estados={estados}
                 />
               </TableCell>

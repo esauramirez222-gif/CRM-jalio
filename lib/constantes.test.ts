@@ -6,6 +6,7 @@ import {
   colorTextoSobre,
   ETIQUETA_MEDIO,
   MEDIOS_CONTACTO,
+  PRODUCTOS,
   TAM_PAGINA,
 } from './constantes'
 
@@ -47,5 +48,21 @@ describe('colores de card por persona', () => {
     expect(colorTextoSobre('#8A0707')).toBe('#ffffff')
     expect(colorTextoSobre('#ffffff')).toBe('#000000')
     expect(colorTextoSobre('#000000')).toBe('#ffffff')
+  })
+})
+
+describe('productos', () => {
+  it('define los productos que se cotizan, con ortografía corregida', () => {
+    expect(PRODUCTOS).toEqual([
+      'Landing page',
+      'Sitio para tu negocio',
+      'Catálogo en línea',
+      'Sitio empresarial',
+      'Tienda en línea',
+      'Paquetes',
+      'Chatbot',
+      'E-commerce',
+      'Digital Marketing',
+    ])
   })
 })

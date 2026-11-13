@@ -6,6 +6,7 @@ type ClienteTablero = {
   estado_id: string
   updated_at: string
   monto_cotizacion?: number | string | null
+  producto?: string | null
 }
 
 /**
@@ -33,20 +34,29 @@ export function filtrarClientes<T extends ClienteTablero>(clientes: T[], q: stri
   return clientes.filter((c) => normalizar(`${c.empresa} ${c.nombre}`).includes(termino))
 }
 
+/** Datos de la cotización que se capturan al mover a un estado que los pide. */
+export type DatosCotizacion = { monto?: number; producto?: string }
+
 /**
  * Devuelve una copia con el cliente movido a `estadoId` y marcado como actualizado en `ahora`.
- * Si se pasa `monto`, también actualiza el monto de la cotización.
+ * Si se pasan `monto`/`producto`, también los actualiza; si no, conserva los que tenía.
  */
 export function moverCliente<T extends ClienteTablero>(
   clientes: T[],
   id: string,
   estadoId: string,
   ahora: string,
-  monto?: number,
+  datos: DatosCotizacion = {},
 ): T[] {
   return clientes.map((c) =>
     c.id === id
-      ? { ...c, estado_id: estadoId, updated_at: ahora, ...(monto !== undefined && { monto_cotizacion: monto }) }
+      ? {
+          ...c,
+          estado_id: estadoId,
+          updated_at: ahora,
+          ...(datos.monto !== undefined && { monto_cotizacion: datos.monto }),
+          ...(datos.producto !== undefined && { producto: datos.producto }),
+        }
       : c,
   )
 }

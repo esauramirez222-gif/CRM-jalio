@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { CONTACTADO_POR, MEDIOS_CONTACTO } from './constantes'
+import { CONTACTADO_POR, MEDIOS_CONTACTO, PRODUCTOS } from './constantes'
 import { interpretarMonto } from './montos'
 
 export const MONTO_INVALIDO = 'Escribe un monto válido, por ejemplo 15000'
@@ -30,6 +30,11 @@ export const clienteSchema = z.object({
   estado_id: z.uuid({ error: 'Selecciona un estado' }),
   medio_contacto: z.enum(MEDIOS_CONTACTO, { error: SELECCIONA }),
   contactado_por: z.enum(CONTACTADO_POR, { error: SELECCIONA }),
+  /** Producto cotizado. Opcional aquí; la acción lo exige si el estado "pide monto". */
+  producto: z
+    .union([z.literal(''), z.enum(PRODUCTOS)], { error: SELECCIONA })
+    .optional()
+    .transform((v) => v || null),
   /** Monto de la cotización. Opcional aquí; la acción exige que exista si el estado "pide monto". */
   monto_cotizacion: z
     .string()

@@ -37,6 +37,20 @@ export function colorTextoSobre(fondo: string): '#000000' | '#ffffff' {
   return contrasteNegro >= contrasteBlanco ? '#000000' : '#ffffff'
 }
 
+/** Productos que se cotizan. Si cambian, actualizar también el CHECK en supabase/migrations. */
+export const PRODUCTOS = [
+  'Landing page',
+  'Sitio para tu negocio',
+  'Catálogo en línea',
+  'Sitio empresarial',
+  'Tienda en línea',
+  'Paquetes',
+  'Chatbot',
+  'E-commerce',
+  'Digital Marketing',
+] as const
+export type Producto = (typeof PRODUCTOS)[number]
+
 export const TAM_PAGINA = 50
 export const COLOR_DEFAULT = '#64748b'
 
